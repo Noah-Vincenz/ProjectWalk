@@ -17,6 +17,7 @@ public class Networking {
 
     /**
      * Method to get a list of all the countries in the world
+     *
      * @return ArrayList of object Country
      */
 
@@ -47,7 +48,8 @@ public class Networking {
 
     /**
      * Method to get the latest value for a certain indicator for different countries
-     * @param countryCodes - array of strings containing the country codes (i.e. DE)
+     *
+     * @param countryCodes  - array of strings containing the country codes (i.e. DE)
      * @param indicatorCode - code string of the indicator
      * @return a map that has the country code as the key and as the object an instance of Indicator
      */
@@ -76,7 +78,7 @@ public class Networking {
                     }
                 }
 
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
@@ -87,10 +89,11 @@ public class Networking {
 
     /**
      * Method to get the value of an indicator for some countries given a range of years
-     * @param countryCodes - array of String with the country codes
+     *
+     * @param countryCodes  - array of String with the country codes
      * @param indicatorCode - the code of the indicator as a String
-     * @param beginYear - String of the beginning year
-     * @param endYear - String of the end year
+     * @param beginYear     - String of the beginning year
+     * @param endYear       - String of the end year
      * @return - A HashMap that has the keys as country codes and the object is another HashMap that has the key an year and the object an indicator
      * For example, to get Germany's GDP for 2015 you'll have to write map.get("DE").get("2015")
      */
@@ -138,6 +141,7 @@ public class Networking {
 
     /**
      * Method that will return a JSON string from a given URL String
+     *
      * @param urlString - the URL String
      * @return a String containing the JSON from the URL
      */
@@ -155,7 +159,7 @@ public class Networking {
             }
 
             return stringBuilder.toString();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

@@ -16,8 +16,9 @@ public class Indicator {
 
     /**
      * Constructor for an Indicator
-     * @param name the indicator's name
-     * @param code the indicator's code
+     *
+     * @param name  the indicator's name
+     * @param code  the indicator's code
      * @param value the value of the indicator
      */
 
@@ -29,6 +30,7 @@ public class Indicator {
 
     /**
      * Getter for the name field
+     *
      * @return String of the name
      */
 
@@ -38,6 +40,7 @@ public class Indicator {
 
     /**
      * Getter for the code field
+     *
      * @return String for the code
      */
 
@@ -47,6 +50,7 @@ public class Indicator {
 
     /**
      * Getter for the code field
+     *
      * @return double for the value
      */
 
