@@ -14,7 +14,8 @@ public class DataSet {
 
     /**
      * Will construct an instance of Data Set with an year and an Indicator
-     * @param year String of the year
+     *
+     * @param year      String of the year
      * @param indicator Indicator instance
      */
 
@@ -25,6 +26,7 @@ public class DataSet {
 
     /**
      * Getter for the year
+     *
      * @return String for the year
      */
 
@@ -34,6 +36,7 @@ public class DataSet {
 
     /**
      * Getter for the indicator
+     *
      * @return Indicator instance
      */
 

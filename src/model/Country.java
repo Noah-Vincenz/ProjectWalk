@@ -13,6 +13,7 @@ public class Country {
 
     /**
      * Constructs an instance of a country with a name and a code
+     *
      * @param name String of the country's name
      * @param code String of the country's code
      */
@@ -24,6 +25,7 @@ public class Country {
 
     /**
      * Getter for the name field
+     *
      * @return String of the name
      */
 
@@ -33,6 +35,7 @@ public class Country {
 
     /**
      * Getter for the code field
+     *
      * @return String for the code
      */
 
