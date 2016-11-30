@@ -11,9 +11,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by alexclp on 28/11/2016.
+ * Created by Alex on 28/11/2016.
  */
 public class Networking {
+
+    /**
+     * Method to get a list of all the countries in the world
+     * @return ArrayList of object Country
+     */
 
     public static ArrayList<Country> getListOfCountries() {
         ArrayList<Country> countries = new ArrayList<Country>();
@@ -40,33 +45,37 @@ public class Networking {
         }
     }
 
-    public static HashMap<Country, ArrayList<DataSet>> getIndicatorForCountries(String indicatorCode) {
-        HashMap<Country, ArrayList<DataSet>> toReturn = new HashMap<Country, ArrayList<DataSet>>();
-//        ArrayList<Country> countries = getListOfCountries();
-        ArrayList<Country> countries = new ArrayList<Country>();
-        countries.add(new Country("Italy", "IT"));
-        countries.add(new Country("Romania", "RO"));
-        countries.add(new Country("Germany", "DE"));
-        for (int i = 0; i < countries.size(); ++i) {
-            Country currentCountry = countries.get(i);
+    /**
+     * Method to get the latest value for a certain indicator for different countries
+     * @param countryCodes - array of strings containing the country codes (i.e. DE)
+     * @param indicatorCode - code string of the indicator
+     * @return a map that has the country code as the key and as the object an instance of Indicator
+     */
 
-            String urlString = "http://api.worldbank.org/countries/" + currentCountry.getCode() + "/indicators/" + indicatorCode + "?format=json&per_page=10000";
+    public static HashMap<String, Indicator> getLastIndicatorForCountries(String[] countryCodes, String indicatorCode) {
+        HashMap<String, Indicator> toReturn = new HashMap<String, Indicator>();
+
+        for (int i = 0; i < countryCodes.length; ++i) {
+            String currentCountry = countryCodes[i];
+
+            String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=10000";
             String json = getJSONForURL(urlString);
 
             try {
                 JSONArray jsonArray = new JSONArray(json);
-                jsonArray = jsonArray.getJSONArray(1);
-                ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
+                jsonArray = jsonArray.getJSONArray(1); // getting rid of the header here (has info about how many pages of data)
 
                 for (int j = 0; j < jsonArray.length(); ++j) {
-                    JSONObject currentJsonObject = jsonArray.getJSONObject(i);
-                    String name = currentJsonObject.getJSONObject("indicator").getString("value");
-                    String value = currentJsonObject.getString("value");
-                    String year = currentJsonObject.getString("date");
-                    dataSets.add(new DataSet(year, new Indicator(name, indicatorCode, value)));
+                    JSONObject current = jsonArray.getJSONObject(j);
+                    String date = current.getString("date");
+                    if (date.equals("2015")) {
+                        JSONObject indicatorObject = current.getJSONObject("indicator");
+                        String name = indicatorObject.getString("value");
+                        double value = Double.parseDouble(current.getString("value"));
+                        toReturn.put(currentCountry, new Indicator(name, indicatorCode, value));
+                    }
                 }
 
-                toReturn.put(currentCountry, dataSets);
             } catch(Exception e) {
                 e.printStackTrace();
                 return null;
@@ -75,6 +84,63 @@ public class Networking {
 
         return toReturn;
     }
+
+    /**
+     * Method to get the value of an indicator for some countries given a range of years
+     * @param countryCodes - array of String with the country codes
+     * @param indicatorCode - the code of the indicator as a String
+     * @param beginYear - String of the beginning year
+     * @param endYear - String of the end year
+     * @return - A HashMap that has the keys as country codes and the object is another HashMap that has the key an year and the object an indicator
+     * For example, to get Germany's GDP for 2015 you'll have to write map.get("DE").get("2015")
+     */
+
+    public static HashMap<String, HashMap<String, Indicator>> getRangeOfIndicatorsForCountries(String[] countryCodes, String indicatorCode, String beginYear, String endYear) {
+        HashMap<String, HashMap<String, Indicator>> toReturn = new HashMap<String, HashMap<String, Indicator>>();
+
+        for (int i = 0; i < countryCodes.length; ++i) {
+            String currentCountry = countryCodes[i];
+
+            String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=10000";
+            String json = getJSONForURL(urlString);
+
+            try {
+                JSONArray jsonArray = new JSONArray(json);
+                jsonArray = jsonArray.getJSONArray(1); // getting rid of the header here (has info about how many pages of data)
+
+                HashMap<String, Indicator> yearsMap = new HashMap<String, Indicator>();
+
+                for (int j = 0; j < jsonArray.length(); ++j) {
+
+                    JSONObject current = jsonArray.getJSONObject(j);
+
+                    String date = current.getString("date");
+                    int dateIntValue = Integer.parseInt(date);
+
+                    if (dateIntValue >= Integer.parseInt(beginYear) && dateIntValue <= Integer.parseInt(endYear)) {
+                        JSONObject indicatorObject = current.getJSONObject("indicator");
+                        String name = indicatorObject.getString("value");
+                        double value = Double.parseDouble(current.getString("value"));
+                        yearsMap.put(date, new Indicator(name, indicatorCode, value));
+                    }
+                }
+
+                toReturn.put(currentCountry, yearsMap);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        return toReturn;
+    }
+
+    /**
+     * Method that will return a JSON string from a given URL String
+     * @param urlString - the URL String
+     * @return a String containing the JSON from the URL
+     */
 
     private static String getJSONForURL(String urlString) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -95,7 +161,10 @@ public class Networking {
         }
     }
 
-    public static void main(String args[]) {
-        System.out.println(getIndicatorForCountries("NY.GDP.MKTP.CD"));
-    }
+//    public static void main(String args[]) {
+//        String gdp = "NY.GDP.MKTP.CD";
+//        String[] countries = {"DE"};
+//        System.out.println(getLastIndicatorForCountries(countries, gdp));
+//        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
+//    }
 }
