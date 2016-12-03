@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * Created by Alex on 28/11/2016.
@@ -62,6 +63,7 @@ public class Networking {
 
             String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=10000";
             String json = getJSONForURL(urlString);
+            System.out.println("URL: " + urlString);
 
             try {
                 JSONArray jsonArray = new JSONArray(json);
@@ -69,12 +71,12 @@ public class Networking {
 
                 for (int j = 0; j < jsonArray.length(); ++j) {
                     JSONObject current = jsonArray.getJSONObject(j);
-                    String date = current.getString("date");
-                    if (date.equals("2015")) {
-                        JSONObject indicatorObject = current.getJSONObject("indicator");
+                    JSONObject indicatorObject = current.getJSONObject("indicator");
+                    if (!current.getString("value").equals("null")) {
                         String name = indicatorObject.getString("value");
                         double value = Double.parseDouble(current.getString("value"));
                         toReturn.put(currentCountry, new Indicator(name, indicatorCode, value));
+                        break;
                     }
                 }
 
@@ -94,38 +96,37 @@ public class Networking {
      * @param indicatorCode - the code of the indicator as a String
      * @param beginYear     - String of the beginning year
      * @param endYear       - String of the end year
-     * @return - A HashMap that has the keys as country codes and the object is another HashMap that has the key an year and the object an indicator
+     * @return - A HashMap that has the keys as country codes and the object is a TreeMap that has the key an year and the object an indicator
      * For example, to get Germany's GDP for 2015 you'll have to write map.get("DE").get("2015")
      */
 
-    public static HashMap<String, HashMap<String, Indicator>> getRangeOfIndicatorsForCountries(String[] countryCodes, String indicatorCode, String beginYear, String endYear) {
-        HashMap<String, HashMap<String, Indicator>> toReturn = new HashMap<String, HashMap<String, Indicator>>();
+    public static HashMap<String, TreeMap<String, Indicator>> getRangeOfIndicatorsForCountries(String[] countryCodes, String indicatorCode, String beginYear, String endYear) {
+        HashMap<String, TreeMap<String, Indicator>> toReturn = new HashMap<String, TreeMap<String, Indicator>>();
 
         for (int i = 0; i < countryCodes.length; ++i) {
             String currentCountry = countryCodes[i];
 
-            String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=10000";
+            String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=1000&date=" + beginYear + ":" + endYear;
             String json = getJSONForURL(urlString);
+            System.out.println("URL: " + urlString);
 
             try {
                 JSONArray jsonArray = new JSONArray(json);
                 jsonArray = jsonArray.getJSONArray(1); // getting rid of the header here (has info about how many pages of data)
 
-                HashMap<String, Indicator> yearsMap = new HashMap<String, Indicator>();
+                TreeMap<String, Indicator> yearsMap = new TreeMap<String, Indicator>();
 
                 for (int j = 0; j < jsonArray.length(); ++j) {
 
                     JSONObject current = jsonArray.getJSONObject(j);
 
                     String date = current.getString("date");
-                    int dateIntValue = Integer.parseInt(date);
 
-                    if (dateIntValue >= Integer.parseInt(beginYear) && dateIntValue <= Integer.parseInt(endYear)) {
-                        JSONObject indicatorObject = current.getJSONObject("indicator");
-                        String name = indicatorObject.getString("value");
-                        double value = Double.parseDouble(current.getString("value"));
-                        yearsMap.put(date, new Indicator(name, indicatorCode, value));
-                    }
+                    JSONObject indicatorObject = current.getJSONObject("indicator");
+                    String name = indicatorObject.getString("value");
+                    double value = Double.parseDouble(current.getString("value"));
+                    yearsMap.put(date, new Indicator(name, indicatorCode, value));
+
                 }
 
                 toReturn.put(currentCountry, yearsMap);
@@ -165,10 +166,10 @@ public class Networking {
         }
     }
 
-//    public static void main(String args[]) {
-//        String gdp = "NY.GDP.MKTP.CD";
-//        String[] countries = {"DE"};
-//        System.out.println(getLastIndicatorForCountries(countries, gdp));
-//        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
-//    }
+    public static void main(String args[]) {
+        String gdp = "NY.GDP.MKTP.CD";
+        String[] countries = {"DE"};
+        System.out.println(getLastIndicatorForCountries(countries, gdp));
+        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
+    }
 }
