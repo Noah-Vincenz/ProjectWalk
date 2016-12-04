@@ -4,7 +4,7 @@
 
 Created by-- 
 
-Ion-Alexandru (Alex) Clapa,(/n)
+Ion-Alexandru (Alex) Clapa,
 Jaiten Gill, 
 Okan Hoplar, 
 Rathusan Jeyaseelan, 
