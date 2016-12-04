@@ -4,9 +4,9 @@
 
 Created by-- 
 
-Ion-Alexandru (Alex) Clapa
-Jaiten Gill
-Okan Hoplar
-Rathusan Jeyaseelan
-Noah-Vincenz (Noah) Nöh
+Ion-Alexandru (Alex) Clapa, 
+Jaiten Gill, 
+Okan Hoplar, 
+Rathusan Jeyaseelan, 
+Noah-Vincenz (Noah) Nöh, 
 Arunita Roy
