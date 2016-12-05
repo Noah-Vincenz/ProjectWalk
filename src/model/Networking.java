@@ -92,13 +92,15 @@ public class Networking {
                         String name = indicatorObject.getString("value");
                         String stringValue = current.getString("value");
 
-                        if (stringValue.equals("null")) {
-                            continue;
-                        }
+                        double value;
 
-                        double value = Double.parseDouble(stringValue);
+                        if (stringValue.equals("null")) {
+                            value = 0;
+                        } else {
+                            value = Double.parseDouble(stringValue);
+
+                        }
                         toReturn.put(currentCountry, new Indicator(name, indicatorCode, value));
-                        break;
                     }
                 }
 
@@ -148,13 +150,15 @@ public class Networking {
                     String name = indicatorObject.getString("value");
                     String stringValue = current.getString("value");
 
+                    double value;
+
                     if (stringValue.equals("null")) {
-                        continue;
+                        value = 0;
+                    } else {
+                        value = Double.parseDouble(stringValue);
+
                     }
-
-                    double value = Double.parseDouble(stringValue);
                     yearsMap.put(date, new Indicator(name, indicatorCode, value));
-
                 }
 
                 toReturn.put(currentCountry, yearsMap);
