@@ -16,11 +16,13 @@
     <children>
         <Pane fx:id="background_pane" layoutX="-14.0" layoutY="-14.0" prefHeight="552.0" prefWidth="805.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
+            <!
                 <ImageView fitHeight="530.0" fitWidth="790.0" opacity="0.95" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@Econ_App_Background_final.jpg" />
                     </image>
                 </ImageView>
+            -->
                 <Text fontSmoothingType="LCD" layoutX="-19.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Econ Revision App" textAlignment="CENTER" underline="true" wrappingWidth="812.4772567749023">
                     <font>
                         <Font name="AppleGothic Regular" size="54.0" />
