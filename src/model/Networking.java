@@ -74,7 +74,13 @@ public class Networking {
                     JSONObject indicatorObject = current.getJSONObject("indicator");
                     if (!current.getString("value").equals("null")) {
                         String name = indicatorObject.getString("value");
-                        double value = Double.parseDouble(current.getString("value"));
+                        String stringValue = current.getString("value");
+
+                        if (stringValue.equals("null")) {
+                            continue;
+                        }
+
+                        double value = Double.parseDouble(stringValue);
                         toReturn.put(currentCountry, new Indicator(name, indicatorCode, value));
                         break;
                     }
@@ -124,7 +130,13 @@ public class Networking {
 
                     JSONObject indicatorObject = current.getJSONObject("indicator");
                     String name = indicatorObject.getString("value");
-                    double value = Double.parseDouble(current.getString("value"));
+                    String stringValue = current.getString("value");
+
+                    if (stringValue.equals("null")) {
+                        continue;
+                    }
+
+                    double value = Double.parseDouble(stringValue);
                     yearsMap.put(date, new Indicator(name, indicatorCode, value));
 
                 }
@@ -168,7 +180,7 @@ public class Networking {
 
     public static void main(String args[]) {
         String gdp = "NY.GDP.MKTP.CD";
-        String[] countries = {"DE"};
+        String[] countries = {"MLT"};
         System.out.println(getLastIndicatorForCountries(countries, gdp));
         System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
     }
