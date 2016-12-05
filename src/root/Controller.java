@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 
 public class Controller {
     /**
-     * Sample Skeleton for 'startScreen.fxml' Controller Class
+     * Sample Skeleton for 'StartScreen.fxml' Controller Class
      */
 
         @FXML // ResourceBundle that was given to the FXMLLoader

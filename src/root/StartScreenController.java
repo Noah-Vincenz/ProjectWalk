@@ -15,7 +15,7 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 
 
-public class startScreenController {
+public class StartScreenController {
     @FXML
     private Pane pane;
     @FXML

@@ -12,6 +12,8 @@
 <?import javafx.scene.text.Font?>
 
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar prefHeight="21.0" prefWidth="339.0" AnchorPane.bottomAnchor="447.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -65,7 +67,20 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="listBoxIndicators" layoutX="21.0" layoutY="46.0" prefWidth="150.0" promptText="List" />
+                                          <ComboBox fx:id="listBoxIndicators" layoutX="21.0" layoutY="46.0" prefWidth="200.0" promptText="Choose indicator...">
+                                           <items>
+                                               <FXCollections fx:factory="observableArrayList">
+                                                   <String fx:id="gdp" fx:value="GDP" />
+                                                   <String fx:id="gdpCapita" fx:value="GDP – Growth Rate Per Capita(Annual %)" />
+                                                   <String fx:id="unemployment" fx:value="Unemployment" />
+                                                   <String fx:id="inflation" fx:value="Consumer Price Index (Inflation)" />
+                                                   <String fx:id="imports" fx:value="Imports of Goods" />
+                                                   <String fx:id="exports" fx:value="Exports of Goods" />
+                                                   <String fx:id="realInterestRates" fx:value="Real Interest Rates" />
+                                                   <String fx:id="taxRate" fx:value="Tax Rate" />
+                                               </FXCollections>
+                                           </items>
+                                          </ComboBox>
                                           <Button fx:id="btnApply" layoutX="275.0" layoutY="77.0" mnemonicParsing="false" text="Apply" />
                                        </children>
                                     </AnchorPane>
