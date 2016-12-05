@@ -17,6 +17,22 @@ import java.util.TreeMap;
 public class Networking {
 
     /**
+     * Singleton init
+     */
+
+    private static Networking instance = null;
+    private Networking() {
+        // Exists only to defeat instantiation.
+    }
+
+    public static Networking getInstance() {
+        if(instance == null) {
+            instance = new Networking();
+        }
+        return instance;
+    }
+
+    /**
      * Method to get a list of all the countries in the world
      *
      * @return ArrayList of object Country
