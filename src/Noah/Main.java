@@ -15,7 +15,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
     	
 		Networking nw = new Networking();
-		String[] listOfCodes = {"MLT", "USA", "RUS", "CHN", "CHE"};
+		String[] listOfCodes = {"DE", "USA", "RUS", "CHN", "CHE"};
 		String inflation = "FP.CPI.TOTL.ZG"; //consumer prices // ------does not work
 		String gdpInUS = "NY.GDP.MKTP.CD";
 		String exportsOfGNS = "NE.EXP.GNFS.ZS"; //% of GDP
