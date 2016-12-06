@@ -59,6 +59,7 @@ public class MultCountryMultYearOneIndBarChart { //problem: adds the same data f
     	} 
         Scene scene  = new Scene(bc,800,600);
         stageMain.setScene(scene);
+        scene.getStylesheets().add("styling2.css");
         stageMain.show();
 	}	 
 }

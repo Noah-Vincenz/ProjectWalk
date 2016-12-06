@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import Noah.SampleCharts.lineChartsWHover.HoveredThresholdNode;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -68,6 +69,7 @@ public class OneCountryOneIndicatorLineChart {
         Scene scene  = new Scene(lineChart,800,600);
         lineChart.getData().add(series);
         stageMain.setScene(scene);
+        scene.getStylesheets().add("styling2.css");
         stageMain.show();
 	}
 }
