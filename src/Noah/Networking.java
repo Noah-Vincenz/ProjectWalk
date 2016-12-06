@@ -17,6 +17,22 @@ import java.util.TreeMap;
 public class Networking {
 
     /**
+     * Singleton init
+     */
+
+    private static Networking instance = null;
+    private Networking() {
+        // Exists only to defeat instantiation.
+    }
+
+    public static Networking getInstance() {
+        if(instance == null) {
+            instance = new Networking();
+        }
+        return instance;
+    }
+
+    /**
      * Method to get a list of all the countries in the world
      *
      * @return ArrayList of object Country
@@ -63,6 +79,7 @@ public class Networking {
 
             String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=10000";
             String json = getJSONForURL(urlString);
+            System.out.println("URL: " + urlString);
 
             try {
                 JSONArray jsonArray = new JSONArray(json);
@@ -70,11 +87,19 @@ public class Networking {
 
                 for (int j = 0; j < jsonArray.length(); ++j) {
                     JSONObject current = jsonArray.getJSONObject(j);
-                    String date = current.getString("date");
-                    if (date.equals("2015")) {
-                        JSONObject indicatorObject = current.getJSONObject("indicator");
+                    JSONObject indicatorObject = current.getJSONObject("indicator");
+                    if (!current.getString("value").equals("null")) {
                         String name = indicatorObject.getString("value");
-                        double value = Double.parseDouble(current.getString("value"));
+                        String stringValue = current.getString("value");
+
+                        double value;
+
+                        if (stringValue.equals("null")) {
+                            value = 0;
+                        } else {
+                            value = Double.parseDouble(stringValue);
+
+                        }
                         toReturn.put(currentCountry, new Indicator(name, indicatorCode, value));
                     }
                 }
@@ -95,7 +120,7 @@ public class Networking {
      * @param indicatorCode - the code of the indicator as a String
      * @param beginYear     - String of the beginning year
      * @param endYear       - String of the end year
-     * @return - A HashMap that has the keys as country codes and the object is another HashMap that has the key an year and the object an indicator
+     * @return - A HashMap that has the keys as country codes and the object is a TreeMap that has the key an year and the object an indicator
      * For example, to get Germany's GDP for 2015 you'll have to write map.get("DE").get("2015")
      */
 
@@ -104,9 +129,10 @@ public class Networking {
 
         for (int i = 0; i < countryCodes.length; ++i) {
             String currentCountry = countryCodes[i];
-
-            String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=10000";
+            System.out.println("Countries:" + currentCountry);
+            String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=1000&date=" + beginYear + ":" + endYear;
             String json = getJSONForURL(urlString);
+            System.out.println("URL: " + urlString);
 
             try {
                 JSONArray jsonArray = new JSONArray(json);
@@ -119,14 +145,20 @@ public class Networking {
                     JSONObject current = jsonArray.getJSONObject(j);
 
                     String date = current.getString("date");
-                    int dateIntValue = Integer.parseInt(date);
 
-                    if (dateIntValue >= Integer.parseInt(beginYear) && dateIntValue <= Integer.parseInt(endYear)) {
-                        JSONObject indicatorObject = current.getJSONObject("indicator");
-                        String name = indicatorObject.getString("value");
-                        double value = Double.parseDouble(current.getString("value"));
-                        yearsMap.put(date, new Indicator(name, indicatorCode, value));
+                    JSONObject indicatorObject = current.getJSONObject("indicator");
+                    String name = indicatorObject.getString("value");
+                    String stringValue = current.getString("value");
+
+                    double value;
+
+                    if (stringValue.equals("null")) {
+                        value = 0;
+                    } else {
+                        value = Double.parseDouble(stringValue);
+
                     }
+                    yearsMap.put(date, new Indicator(name, indicatorCode, value));
                 }
 
                 toReturn.put(currentCountry, yearsMap);
@@ -168,23 +200,8 @@ public class Networking {
 
     public static void main(String args[]) {
         String gdp = "NY.GDP.MKTP.CD";
-        String[] countries = {"DE"};
+        String[] countries = {"MLT"};
         System.out.println(getLastIndicatorForCountries(countries, gdp));
-        System.out.println(getLastIndicatorForCountries(countries, gdp).get("DE").getValue());
         System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
-        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "1990"));
-        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "1990").keySet().toArray()[0]);//countrycode
-        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "1990").get("DE").keySet().toArray()[0]); //1st year
-        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "1990").get("DE").keySet().toArray()[1]); //last year
-        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "1990").get("DE").get("1990"));
-        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "1990").get("DE").get("1990").getName()); //indicator name
-        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "1990").get("DE").get("1990").getCode()); //indicator code
-        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "1990").get("DE").get("1990").getValue()); //prints value
-
-
-
-
-
-
     }
 }
