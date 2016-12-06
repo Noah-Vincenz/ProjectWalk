@@ -3,10 +3,7 @@ package model;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by Alex on 06/12/2016.
@@ -29,19 +26,35 @@ public class DataSaver {
         return instance;
     }
 
-    public static void saveJSON(String jsonString, String fileName) {
-        try (FileWriter fileWriter = new FileWriter(fileName)){
-            fileWriter.write(jsonString);
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (Exception e) {
+    public boolean checkForFile(String fileName) throws IOException {
+        File jsonFile = new File(fileName);
+        return jsonFile.exists();
+    }
+
+    public void saveJSON(String jsonString, String fileName) {
+        BufferedWriter writer = null;
+        try {
+            File file = new File("json/" + fileName);
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+            writer = new BufferedWriter(new FileWriter(file, false));
+            writer.write(jsonString);
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Exception when writing to file");
+        } finally {
+            try {
+                writer.close();
+            }
+            catch (IOException ex) {
+                System.err.println("An IOException was caught!");
+                ex.printStackTrace();
+            }
         }
     }
 
-    public static JSONArray getJSONFromFile(String fileName) throws IOException, JSONException {
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
+    public JSONArray getJSONFromFile(String fileName) throws IOException, JSONException {
+        BufferedReader br = new BufferedReader(new FileReader("json/" + fileName));
         try {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
