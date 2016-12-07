@@ -124,11 +124,11 @@ public class Networking {
      * For example, to get Germany's GDP for 2015 you'll have to write map.get("DE").get("2015")
      */
 
-    public static HashMap<String, TreeMap<String, Indicator>> getRangeOfIndicatorsForCountries(String[] countryCodes, String indicatorCode, String beginYear, String endYear) {
+    public static HashMap<String, TreeMap<String, Indicator>> getRangeOfIndicatorsForCountries(ArrayList<String> countryCodes, String indicatorCode, String beginYear, String endYear) {
         HashMap<String, TreeMap<String, Indicator>> toReturn = new HashMap<String, TreeMap<String, Indicator>>();
 
-        for (int i = 0; i < countryCodes.length; ++i) {
-            String currentCountry = countryCodes[i];
+        for (int i = 0; i < countryCodes.size(); ++i) {
+            String currentCountry = countryCodes.get(i);
             System.out.println("Countries:" + currentCountry);
             String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=1000&date=" + beginYear + ":" + endYear;
             String json = getJSONForURL(urlString);
@@ -202,6 +202,6 @@ public class Networking {
         String gdp = "NY.GDP.MKTP.CD";
         String[] countries = {"MLT"};
         System.out.println(getLastIndicatorForCountries(countries, gdp));
-        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
+     //   System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
     }
 }
