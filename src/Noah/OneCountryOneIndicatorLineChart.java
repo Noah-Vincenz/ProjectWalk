@@ -40,8 +40,10 @@ public class OneCountryOneIndicatorLineChart {
 	private String finalYear;
 	private String indicator;
  
-	public OneCountryOneIndicatorLineChart(Stage stageMain, HashMap<String, TreeMap<String, Indicator>> hashMapIn) {
-		map = hashMapIn;
+	public OneCountryOneIndicatorLineChart(HashMap<String, TreeMap<String, Indicator>> hashMapIn) {
+        Stage stageMain = new Stage();
+
+        map = hashMapIn;
 		codesList = map.keySet();
 		countryCode = (String) codesList.toArray()[0];
         firstYear = (String) map.get(countryCode).keySet().toArray()[0]; //1st year
@@ -56,7 +58,7 @@ public class OneCountryOneIndicatorLineChart {
         yAxis.setLabel(indicator);
         //creating the chart
         final LineChart<String,Number> lineChart = new LineChart<String,Number>(xAxis,yAxis);
-        lineChart.setTitle("Line Chart");
+        lineChart.setTitle(indicator);
         //defining a series
         XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
         series.setName(countryCode);  
