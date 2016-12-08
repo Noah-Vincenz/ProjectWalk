@@ -1,34 +1,24 @@
-package root;
+package views;
 
-import Noah.Networking;
-import Noah.OneCountryOneIndicatorLineChart;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.image.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Color;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.StageStyle;
-
-import javax.swing.*;
+import model.*;
 import java.util.ArrayList;
 
-public class Main extends Application {
+public class EconomicsMenuScreen {
     private CheckBox United_Kingdom;
     private CheckBox United_States;
     private CheckBox Romania;
@@ -40,8 +30,8 @@ public class Main extends Application {
     private CheckBox Japan;
     private CheckBox Russia;
     private ComboBox cbIndicators;
-    @Override
-    public void start(final Stage primaryStage) throws Exception{
+
+    public EconomicsMenuScreen(Stage primaryStage) {
         VBox searchWolfram = new VBox();
         Label searchTitle = new Label("Have a Question? Ask Me?");
         searchTitle.setStyle("-fx-font-size:20px; -fx-font-family:\"Helvetica\";");
@@ -72,7 +62,7 @@ public class Main extends Application {
         Label label = new Label("The Economics of the World");
         label.setStyle("-fx-font-size:34px; -fx-font-family:\"Helvetica\";");
         label.setTextFill(Color.WHITE);
-        
+
         SplitPane root = new SplitPane();
         BorderPane informational = new BorderPane();
         informational.setCenter(label);
@@ -85,16 +75,16 @@ public class Main extends Application {
         Label options = new Label("Select Visualisation to Explore");
         options.setStyle("-fx-font-size:20px; -fx-font-family:\"Helvetica\";");
         options.setTextFill(Color.BLACK);
-       // optionsToExplore.getChildren().add(options);
+        // optionsToExplore.getChildren().add(options);
         optionsToExplore.setMinSize(100,50);
         Text t = new Text();
         t.setFont(new Font(12));
         t.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nCurabitur vel tellus a ante ornare pellentesque. Duis venenatis\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien");
-     //   optionsToExplore.getChildren().add(t);
+        //   optionsToExplore.getChildren().add(t);
         Text t2 = new Text();
         t2.setFont(new Font(12));
         t2.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nCurabitur vel tellus a ante ornare pellentesque. Duis venenatis\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien\nibh tristique, mattis ipsum eu, tempor turpis. In non tellus sapien");
-       // optionsToExplore.getChildren().add(t2);
+        // optionsToExplore.getChildren().add(t2);
 
         VBox graphOptions = new VBox();
         graphOptions.setPadding(new Insets(50,0,0,0));
@@ -208,46 +198,21 @@ public class Main extends Application {
         optionsToExplore.getChildren().add(btn);
 
 
-//        root.getItems().add(new Button("Button One"));
+//        views.getItems().add(new Button("Button One"));
 
         root.getItems().addAll(informational, optionsToExplore);
 
-//        root.setAlignment(Pos.CENTER);
+//        views.setAlignment(Pos.CENTER);
 
-        ImagePattern pattern = new ImagePattern(new Image("images/pexels-photo-25349-2.jpg"), 0, 0, 1, 1, true);
+//        ImagePattern pattern = new ImagePattern(new Image("images/pexels-photo-25349-2.jpg"), 0, 0, 1, 1, true);
         informational.setStyle("-fx-background-image: url(\"https://upload.wikimedia.org/wikipedia/commons/6/6e/London_Thames_Sunset_panorama_-_Feb_2008.jpg\"); -fx-background-size:cover;");
         optionsToExplore.setStyle("-fx-background-color:#FFFFFF;");
 
 
         Scene scene = new Scene(root, 930, 750);
-        scene.setFill(pattern);
+       // scene.setFill(pattern);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public void setMenuBar() {
-        MenuBar menuBar = new MenuBar();
-        Menu menuOware = new Menu("Oware");
-        MenuItem exitMainMenu = new MenuItem("Exit to Main Menu");
-        MenuItem restartGameMenu = new MenuItem("Restart Game");
-//        exitMainMenu.setOnAction(new EventHandler<ActionEvent>() {
-//            public void handle(ActionEvent t) {
-//                OwareMenuScreen view = new OwareMenuScreen(mainStage);
-//            }
-//        });
-//        restartGameMenu.setOnAction(new EventHandler<ActionEvent>() {
-//            public void handle(ActionEvent t) {
-//                controller.resetGame();
-//            }
-//        });
-        menuOware.getItems().add(exitMainMenu);
-        menuOware.getItems().add(restartGameMenu);
-        menuBar.getMenus().addAll(menuOware);
-        root.getChildren().add( menuBar);
-        root.setAlignment(Pos.TOP_CENTER);
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
 }

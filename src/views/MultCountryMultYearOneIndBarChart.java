@@ -1,20 +1,19 @@
-package Noah;
+package views;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javafx.application.Application;	
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
-
+import model.*;
 /**
- * Created by Noah on 28/11/2016.
+ * Created by controllers on 28/11/2016.
  */	 
 public class MultCountryMultYearOneIndBarChart { //problem: adds the same data for every country
 	
@@ -59,7 +58,7 @@ public class MultCountryMultYearOneIndBarChart { //problem: adds the same data f
     	} 
         Scene scene  = new Scene(bc,800,600);
         stageMain.setScene(scene);
-        scene.getStylesheets().add("styling2.css");
+        scene.getStylesheets().add("resources/css/styling2.css");
         stageMain.show();
 	}	 
 }
