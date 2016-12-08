@@ -4,19 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
-import javafx.application.Application;	
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
+import model.Indicator;
 
 /**
  * Created by Noah on 28/11/2016.
  */	 
-public class MultCountryMultYearOneIndBarChart { //problem: adds the same data for every country
+public class MyBarChart { //problem: adds the same data for every country
 	
 	private Map <String, TreeMap<String, Indicator>> map;
 	private Set <String> codesList; //Just one Code in this case, because one country
@@ -27,7 +26,7 @@ public class MultCountryMultYearOneIndBarChart { //problem: adds the same data f
 	private int noOfCountries;
 	private String indicator;
 	
-	public MultCountryMultYearOneIndBarChart(Stage stageMain, HashMap<String, TreeMap<String, Indicator>> hashMapIn) {
+	public MyBarChart(Stage stageMain, HashMap<String, TreeMap<String, Indicator>> hashMapIn) {
 		map = hashMapIn;
 		codesList = map.keySet();
 		countryCode = (String) codesList.toArray()[0]; //just random countryCode
@@ -39,14 +38,10 @@ public class MultCountryMultYearOneIndBarChart { //problem: adds the same data f
     	stageMain.setTitle(indicator + " from " + firstYear + " until " + finalYear);
 		final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
-        final BarChart<String,Number> bc = new BarChart<String,Number>(xAxis,yAxis);
-        bc.setTitle("Country Summary");
+        final BarChart<String,Number> barChart = new BarChart<String,Number>(xAxis,yAxis);
+        barChart.setTitle("Country Summary");
         xAxis.setLabel("Country");       
         yAxis.setLabel(indicator);
-        
-        //one series for every year
-        System.out.println(noOfYears);
-        
     	for(int i= 0; i < noOfYears; ++i) {
 	        XYChart.Series series = new XYChart.Series();
 	       	series.setName(Integer.toString(Integer.parseInt(firstYear)+i));
@@ -55,11 +50,11 @@ public class MultCountryMultYearOneIndBarChart { //problem: adds the same data f
         		String year = Integer.toString(Integer.parseInt(firstYear)+i);
 	        	series.getData().add(new XYChart.Data(countryCode, map.get(countryCode).get(year).getValue()));   
 	        }
-	        bc.getData().addAll(series);
+	        barChart.getData().addAll(series);
     	} 
-        Scene scene  = new Scene(bc,800,600);
+        Scene scene  = new Scene(barChart,800,600);
         stageMain.setScene(scene);
-        scene.getStylesheets().add("styling2.css");
+        scene.getStylesheets().add("styling.css");
         stageMain.show();
 	}	 
 }
