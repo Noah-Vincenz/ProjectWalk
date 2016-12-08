@@ -1,34 +1,20 @@
-package Noah;
+package views;
 
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
- 
+ import model.*;
  
 /**
- * Created by Noah on 28/11/2016.
+ * Created by controllers on 28/11/2016.
  */
 public class OneCountryOneIndicatorLineChart {
 	
@@ -70,7 +56,7 @@ public class OneCountryOneIndicatorLineChart {
         Scene scene  = new Scene(lineChart,800,600);
         lineChart.getData().add(series);
         stageMain.setScene(scene);
-        scene.getStylesheets().add("styling2.css");
+        scene.getStylesheets().add("resources/css/styling2.css");
         stageMain.show();
 	}
 }
