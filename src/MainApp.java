@@ -8,6 +8,7 @@
 import views.EconomicsMenuScreen;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import views.MapView;
 
 /**
  * The main application that will be compiled and executed through command line
@@ -21,6 +22,8 @@ public class MainApp extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
+       // MapView m = new MapView();
+
         EconomicsMenuScreen o = new EconomicsMenuScreen(primaryStage);
     }
 
