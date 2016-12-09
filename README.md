@@ -8,5 +8,5 @@ Ion-Alexandru (Alex) Clapa,
 Jaiten Gill, 
 Okan Hoplar, 
 Rathusan Jeyaseelan, 
-Noah-Vincenz (Noah) Nöh, 
+controllers-Vincenz (controllers) Nöh,
 Arunita Roy
