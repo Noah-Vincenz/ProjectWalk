@@ -1,10 +1,15 @@
 package model;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.xml.crypto.Data;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -21,12 +26,13 @@ public class Networking {
      */
 
     private static Networking instance = null;
+
     private Networking() {
         // Exists only to defeat instantiation.
     }
 
     public static Networking getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Networking();
         }
         return instance;
@@ -38,29 +44,22 @@ public class Networking {
      * @return ArrayList of object Country
      */
 
-    public static ArrayList<Country> getListOfCountries() {
+    public static ArrayList<Country> getListOfCountries() throws JSONException, IOException {
         ArrayList<Country> countries = new ArrayList<Country>();
 
         String urlString = "http://api.worldbank.org/countries?format=json&per_page=10000";
         StringBuilder stringBuilder = new StringBuilder();
 
-        String json = getJSONForURL(urlString);
-        try {
-            JSONArray jsonArray = new JSONArray(json);
-            jsonArray = jsonArray.getJSONArray(1);
+        JSONArray jsonArray = getJSONForURL(urlString);
 
-            for (int i = 0; i < jsonArray.length(); ++i) {
-                JSONObject current = jsonArray.getJSONObject(i);
-                String code = current.getString("iso2Code");
-                String name = current.getString("name");
-                countries.add(new Country(name, code));
-            }
-
-            return countries;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        for (int i = 0; i < jsonArray.length(); ++i) {
+            JSONObject current = jsonArray.getJSONObject(i);
+            String code = current.getString("iso2Code");
+            String name = current.getString("name");
+            countries.add(new Country(name, code));
         }
+
+        return countries;
     }
 
     /**
@@ -71,42 +70,36 @@ public class Networking {
      * @return a map that has the country code as the key and as the object an instance of Indicator
      */
 
-    public static HashMap<String, Indicator> getLastIndicatorForCountries(String[] countryCodes, String indicatorCode) {
+    public static HashMap<String, Indicator> getLastIndicatorForCountries(String[] countryCodes, String indicatorCode) throws IOException, JSONException {
+
         HashMap<String, Indicator> toReturn = new HashMap<String, Indicator>();
 
         for (int i = 0; i < countryCodes.length; ++i) {
             String currentCountry = countryCodes[i];
 
             String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=10000";
-            String json = getJSONForURL(urlString);
+
             System.out.println("URL: " + urlString);
 
-            try {
-                JSONArray jsonArray = new JSONArray(json);
-                jsonArray = jsonArray.getJSONArray(1); // getting rid of the header here (has info about how many pages of data)
+            JSONArray jsonArray = getJSONForURL(urlString);
 
-                for (int j = 0; j < jsonArray.length(); ++j) {
-                    JSONObject current = jsonArray.getJSONObject(j);
-                    JSONObject indicatorObject = current.getJSONObject("indicator");
-                    if (!current.getString("value").equals("null")) {
-                        String name = indicatorObject.getString("value");
-                        String stringValue = current.getString("value");
+            for (int j = 0; j < jsonArray.length(); ++j) {
+                JSONObject current = jsonArray.getJSONObject(j);
+                JSONObject indicatorObject = current.getJSONObject("indicator");
+                if (!current.getString("value").equals("null")) {
+                    String name = indicatorObject.getString("value");
+                    String stringValue = current.getString("value");
 
-                        double value;
+                    double value;
 
-                        if (stringValue.equals("null")) {
-                            value = 0;
-                        } else {
-                            value = Double.parseDouble(stringValue);
+                    if (stringValue.equals("null")) {
+                        value = 0;
+                    } else {
+                        value = Double.parseDouble(stringValue);
 
-                        }
-                        toReturn.put(currentCountry, new Indicator(name, indicatorCode, value));
                     }
+                    toReturn.put(currentCountry, new Indicator(name, indicatorCode, value));
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
             }
         }
 
@@ -124,49 +117,45 @@ public class Networking {
      * For example, to get Germany's GDP for 2015 you'll have to write map.get("DE").get("2015")
      */
 
-    public static HashMap<String, TreeMap<String, Indicator>> getRangeOfIndicatorsForCountries(String[] countryCodes, String indicatorCode, String beginYear, String endYear) {
+    public static HashMap<String, TreeMap<String, Indicator>> getRangeOfIndicatorsForCountries(String[] countryCodes, String indicatorCode, String beginYear, String endYear) throws JSONException, IOException {
+
         HashMap<String, TreeMap<String, Indicator>> toReturn = new HashMap<String, TreeMap<String, Indicator>>();
 
         for (int i = 0; i < countryCodes.length; ++i) {
             String currentCountry = countryCodes[i];
 
             String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=1000&date=" + beginYear + ":" + endYear;
-            String json = getJSONForURL(urlString);
             System.out.println("URL: " + urlString);
 
-            try {
-                JSONArray jsonArray = new JSONArray(json);
-                jsonArray = jsonArray.getJSONArray(1); // getting rid of the header here (has info about how many pages of data)
+            JSONArray jsonArray = getJSONForURL(urlString);
 
-                TreeMap<String, Indicator> yearsMap = new TreeMap<String, Indicator>();
+            System.out.println(jsonArray);
 
-                for (int j = 0; j < jsonArray.length(); ++j) {
+            TreeMap<String, Indicator> yearsMap = new TreeMap<String, Indicator>();
 
-                    JSONObject current = jsonArray.getJSONObject(j);
+            for (int j = 0; j < jsonArray.length(); ++j) {
 
-                    String date = current.getString("date");
+                JSONObject current = jsonArray.getJSONObject(j);
 
-                    JSONObject indicatorObject = current.getJSONObject("indicator");
-                    String name = indicatorObject.getString("value");
-                    String stringValue = current.getString("value");
+                String date = current.getString("date");
 
-                    double value;
+                JSONObject indicatorObject = current.getJSONObject("indicator");
+                String name = indicatorObject.getString("value");
+                String stringValue = current.getString("value");
 
-                    if (stringValue.equals("null")) {
-                        value = 0;
-                    } else {
-                        value = Double.parseDouble(stringValue);
+                double value;
 
-                    }
-                    yearsMap.put(date, new Indicator(name, indicatorCode, value));
+                if (stringValue.equals("null")) {
+                    value = 0;
+                } else {
+                    value = Double.parseDouble(stringValue);
+
                 }
-
-                toReturn.put(currentCountry, yearsMap);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+                yearsMap.put(date, new Indicator(name, indicatorCode, value));
             }
+
+            toReturn.put(currentCountry, yearsMap);
+
         }
 
         return toReturn;
@@ -179,10 +168,12 @@ public class Networking {
      * @return a String containing the JSON from the URL
      */
 
-    private static String getJSONForURL(String urlString) {
-        StringBuilder stringBuilder = new StringBuilder();
+    private static JSONArray getJSONForURL(String urlString) throws IOException, JSONException {
+        if (DataSaver.getInstance().checkForFile(urlString)) {
+            return DataSaver.getInstance().getJSONFromFile(urlString);
+        } else {
+            StringBuilder stringBuilder = new StringBuilder();
 
-        try {
             URL url = new URL(urlString);
             URLConnection urlConnection = url.openConnection();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -191,17 +182,16 @@ public class Networking {
                 stringBuilder.append(line);
             }
 
-            return stringBuilder.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            JSONArray toReturn = new JSONArray(stringBuilder.toString()).getJSONArray(1);
+            DataSaver.getInstance().saveJSON(toReturn.toString(), urlString);
+            return toReturn;
         }
     }
 
     public static void main(String args[]) {
         String gdp = "NY.GDP.MKTP.CD";
         String[] countries = {"MLT"};
-        System.out.println(getLastIndicatorForCountries(countries, gdp));
-        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
+//        System.out.println(getLastIndicatorForCountries(countries, gdp));
+//        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
     }
 }
