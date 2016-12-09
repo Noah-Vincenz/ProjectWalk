@@ -185,7 +185,11 @@ public class EconomicsMenuScreen {
                     } else if(graphSelected == "Tax Rates") {
                         indicatorCode = "IC.TAX.TOTL.CP.ZS";
                     }
-                    OneCountryOneIndicatorLineChart lc = new OneCountryOneIndicatorLineChart (Networking.getInstance().getRangeOfIndicatorsForCountries(countries, indicatorCode, "1980", "2015"));
+                    try {
+                        OneCountryOneIndicatorLineChart lc = new OneCountryOneIndicatorLineChart (Networking.getInstance().getRangeOfIndicatorsForCountries(countries, indicatorCode, "1980", "2015"));
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
 
