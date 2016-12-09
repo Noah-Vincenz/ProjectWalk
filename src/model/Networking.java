@@ -70,12 +70,12 @@ public class Networking {
      * @return a map that has the country code as the key and as the object an instance of Indicator
      */
 
-    public static HashMap<String, Indicator> getLastIndicatorForCountries(String[] countryCodes, String indicatorCode) throws IOException, JSONException {
+    public static HashMap<String, Indicator> getLastIndicatorForCountries(ArrayList<String> countryCodes, String indicatorCode) throws IOException, JSONException {
 
         HashMap<String, Indicator> toReturn = new HashMap<String, Indicator>();
 
-        for (int i = 0; i < countryCodes.length; ++i) {
-            String currentCountry = countryCodes[i];
+        for (int i = 0; i < countryCodes.size(); ++i) {
+            String currentCountry = countryCodes.get(i);
 
             String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=10000";
 
@@ -117,12 +117,12 @@ public class Networking {
      * For example, to get Germany's GDP for 2015 you'll have to write map.get("DE").get("2015")
      */
 
-    public static HashMap<String, TreeMap<String, Indicator>> getRangeOfIndicatorsForCountries(String[] countryCodes, String indicatorCode, String beginYear, String endYear) throws JSONException, IOException {
+    public static HashMap<String, TreeMap<String, Indicator>> getRangeOfIndicatorsForCountries(ArrayList<String> countryCodes, String indicatorCode, String beginYear, String endYear) throws JSONException, IOException {
 
         HashMap<String, TreeMap<String, Indicator>> toReturn = new HashMap<String, TreeMap<String, Indicator>>();
 
-        for (int i = 0; i < countryCodes.length; ++i) {
-            String currentCountry = countryCodes[i];
+        for (int i = 0; i < countryCodes.size(); ++i) {
+            String currentCountry = countryCodes.get(i);
 
             String urlString = "http://api.worldbank.org/countries/" + currentCountry + "/indicators/" + indicatorCode + "?format=json&per_page=1000&date=" + beginYear + ":" + endYear;
             System.out.println("URL: " + urlString);
