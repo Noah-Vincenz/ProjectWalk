@@ -171,10 +171,8 @@ public class Networking {
 
             for (int i = 0; i < jsonArray.length(); ++i) {
                 JSONObject current = jsonArray.getJSONObject(i);
-                String name = current.getString("name");
 
                 if (!current.isNull("name") && !current.isNull("source") && !current.isNull("industry") && !current.isNull("realTimeWorth")) {
-                    System.out.println(name + " " + current.isNull("name"));
                     Billionaire currentBillionaire = new Billionaire(current.getString("name"),
                             current.getString("source"),
                             current.getString("industry"),
@@ -241,9 +239,5 @@ public class Networking {
 
     public static void main(String args[]) {
         System.out.println(Networking.getInstance().getBillionairesRange(30));
-//        String gdp = "NY.GDP.MKTP.CD";
-//        String[] countries = {"MLT"};
-//        System.out.println(getLastIndicatorForCountries(countries, gdp));
-//        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
     }
 }
