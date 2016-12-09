@@ -26,12 +26,13 @@ public class Networking {
      */
 
     private static Networking instance = null;
+
     private Networking() {
         // Exists only to defeat instantiation.
     }
 
     public static Networking getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Networking();
         }
         return instance;
@@ -70,6 +71,7 @@ public class Networking {
      */
 
     public static HashMap<String, Indicator> getLastIndicatorForCountries(String[] countryCodes, String indicatorCode) throws IOException, JSONException {
+
         HashMap<String, Indicator> toReturn = new HashMap<String, Indicator>();
 
         for (int i = 0; i < countryCodes.length; ++i) {
@@ -116,6 +118,7 @@ public class Networking {
      */
 
     public static HashMap<String, TreeMap<String, Indicator>> getRangeOfIndicatorsForCountries(String[] countryCodes, String indicatorCode, String beginYear, String endYear) throws JSONException, IOException {
+
         HashMap<String, TreeMap<String, Indicator>> toReturn = new HashMap<String, TreeMap<String, Indicator>>();
 
         for (int i = 0; i < countryCodes.length; ++i) {
