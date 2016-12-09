@@ -12,9 +12,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by Alex on 28/11/2016.
@@ -161,13 +159,51 @@ public class Networking {
         return toReturn;
     }
 
-    public void getBillionaires() {
+    public ArrayList<Billionaire> getBillionairesRange(int range) {
         String urlString = "http://www.forbes.com/ajax/list/data?year=2015&uri=billionaires&type=person";
+
         try {
             JSONArray jsonArray = getJSONForURL(urlString);
-            System.out.println("Size: " + jsonArray.length());
+
+            // Check if the data was get from the local storage
+
+            ArrayList<Billionaire> billionaires  = new ArrayList<Billionaire>();
+
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                JSONObject current = jsonArray.getJSONObject(i);
+                String name = current.getString("name");
+
+                if (!current.isNull("name") && !current.isNull("source") && !current.isNull("industry") && !current.isNull("realTimeWorth")) {
+                    System.out.println(name + " " + current.isNull("name"));
+                    Billionaire currentBillionaire = new Billionaire(current.getString("name"),
+                            current.getString("source"),
+                            current.getString("industry"),
+                            current.getDouble("realTimeWorth"));
+                    billionaires.add(currentBillionaire);
+                }
+            }
+
+            Collections.sort(billionaires, new Comparator<Billionaire>() {
+                @Override
+                public int compare(Billionaire o1, Billionaire o2) {
+                    if (o1.getWorthValue() < o2.getWorthValue()) {
+                        return 1;
+                    } else if (o1.getWorthValue() == o2.getWorthValue()) {
+                        return 0;
+                    }
+                    return -1;
+                }
+            });
+
+            ArrayList<Billionaire> toReturn = new ArrayList<Billionaire>();
+            for (int i = 0; i < range; ++i) {
+                toReturn.add(billionaires.get(i));
+            }
+
+            return toReturn;
         } catch(Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 
@@ -204,7 +240,7 @@ public class Networking {
     }
 
     public static void main(String args[]) {
-        Networking.getInstance().getBillionaires();
+        System.out.println(Networking.getInstance().getBillionairesRange(30));
 //        String gdp = "NY.GDP.MKTP.CD";
 //        String[] countries = {"MLT"};
 //        System.out.println(getLastIndicatorForCountries(countries, gdp));
