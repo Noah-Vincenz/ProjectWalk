@@ -161,6 +161,16 @@ public class Networking {
         return toReturn;
     }
 
+    public void getBillionaires() {
+        String urlString = "http://www.forbes.com/ajax/list/data?year=2015&uri=billionaires&type=person";
+        try {
+            JSONArray jsonArray = getJSONForURL(urlString);
+            System.out.println("Size: " + jsonArray.length());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Method that will return a JSON string from a given URL String
      *
@@ -182,15 +192,21 @@ public class Networking {
                 stringBuilder.append(line);
             }
 
-            JSONArray toReturn = new JSONArray(stringBuilder.toString()).getJSONArray(1);
+            JSONArray toReturn;
+            if (!urlString.contains("worldbank")) {
+                toReturn = new JSONArray(stringBuilder.toString());
+            } else {
+                toReturn = new JSONArray(stringBuilder.toString()).getJSONArray(1);
+            }
             DataSaver.getInstance().saveJSON(toReturn.toString(), urlString);
             return toReturn;
         }
     }
 
     public static void main(String args[]) {
-        String gdp = "NY.GDP.MKTP.CD";
-        String[] countries = {"MLT"};
+        Networking.getInstance().getBillionaires();
+//        String gdp = "NY.GDP.MKTP.CD";
+//        String[] countries = {"MLT"};
 //        System.out.println(getLastIndicatorForCountries(countries, gdp));
 //        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
     }
