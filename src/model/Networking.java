@@ -12,9 +12,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by Alex on 28/11/2016.
@@ -161,6 +159,52 @@ public class Networking {
         return toReturn;
     }
 
+    public ArrayList<Billionaire> getBillionairesRange(int range) {
+        String urlString = "http://www.forbes.com/ajax/list/data?year=2015&uri=billionaires&type=person";
+
+        try {
+            JSONArray jsonArray = getJSONForURL(urlString);
+
+            // Check if the data was get from the local storage
+
+            ArrayList<Billionaire> billionaires  = new ArrayList<Billionaire>();
+
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                JSONObject current = jsonArray.getJSONObject(i);
+
+                if (!current.isNull("name") && !current.isNull("source") && !current.isNull("industry") && !current.isNull("realTimeWorth")) {
+                    Billionaire currentBillionaire = new Billionaire(current.getString("name"),
+                            current.getString("source"),
+                            current.getString("industry"),
+                            current.getDouble("realTimeWorth"));
+                    billionaires.add(currentBillionaire);
+                }
+            }
+
+            Collections.sort(billionaires, new Comparator<Billionaire>() {
+                @Override
+                public int compare(Billionaire o1, Billionaire o2) {
+                    if (o1.getWorthValue() < o2.getWorthValue()) {
+                        return 1;
+                    } else if (o1.getWorthValue() == o2.getWorthValue()) {
+                        return 0;
+                    }
+                    return -1;
+                }
+            });
+
+            ArrayList<Billionaire> toReturn = new ArrayList<Billionaire>();
+            for (int i = 0; i < range; ++i) {
+                toReturn.add(billionaires.get(i));
+            }
+
+            return toReturn;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
      * Method that will return a JSON string from a given URL String
      *
@@ -182,16 +226,18 @@ public class Networking {
                 stringBuilder.append(line);
             }
 
-            JSONArray toReturn = new JSONArray(stringBuilder.toString()).getJSONArray(1);
+            JSONArray toReturn;
+            if (!urlString.contains("worldbank")) {
+                toReturn = new JSONArray(stringBuilder.toString());
+            } else {
+                toReturn = new JSONArray(stringBuilder.toString()).getJSONArray(1);
+            }
             DataSaver.getInstance().saveJSON(toReturn.toString(), urlString);
             return toReturn;
         }
     }
 
     public static void main(String args[]) {
-        String gdp = "NY.GDP.MKTP.CD";
-        String[] countries = {"MLT"};
-//        System.out.println(getLastIndicatorForCountries(countries, gdp));
-//        System.out.println(getRangeOfIndicatorsForCountries(countries, gdp, "1990", "2015"));
+        System.out.println(Networking.getInstance().getBillionairesRange(30));
     }
 }
