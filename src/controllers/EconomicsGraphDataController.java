@@ -1,5 +1,6 @@
 package controllers;
 
+import com.wolfram.alpha.WAQueryResult;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.chart.*;
@@ -8,6 +9,7 @@ import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import model.Indicator;
 import model.Networking;
+import model.SearchData;
 import views.EconomicsMenuScreen;
 import views.MultCountryMultYearOneIndBarChart;
 import views.OneCountryOneIndicatorLineChart;
@@ -29,15 +31,18 @@ public class EconomicsGraphDataController {
     private String finalYear;
     private String indicator;
     private Stage stageMain;
+    private SearchData modelSearch;
 
     //Graph Data Controller
     public EconomicsGraphDataController(EconomicsMenuScreen viewMain) {
         view = viewMain;
         setSelectionButtonListener();
+        modelSearch = new SearchData();
+        searchWolframEnabled();
     }
 
     public void setSelectionButtonListener() {
-        view.getSearchBtn().setOnAction(new EventHandler<ActionEvent>() {
+        view.getGraphSearchBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 ArrayList<CheckBox> countriesCheckBoxes = view.getCheckBoxes();
@@ -168,6 +173,17 @@ public class EconomicsGraphDataController {
             bc.getData().addAll(series);
         }
         return bc;
+    }
+
+    public void searchWolframEnabled() {
+        view.getSearchBtn().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                WAQueryResult query = modelSearch.getResult(view.getTextSearch().getText());
+                view.setWolframQueryResults(query);
+            }
+        });
+
     }
 }
 

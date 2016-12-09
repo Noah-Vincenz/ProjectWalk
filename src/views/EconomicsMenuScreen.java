@@ -1,9 +1,13 @@
 package views;
 
+import com.wolfram.alpha.WAQueryResult;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -14,12 +18,15 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import java.util.ArrayList;
+import javafx.scene.image.*;
+import com.wolfram.alpha.*;
 
 public class EconomicsMenuScreen {
     private ComboBox cbIndicators;
     private ArrayList<CheckBox> checkBoxes;
     private Button btn;
     private Button searchBtn;
+    private TextField textSearch;
 
     private SplitPane root;
 
@@ -128,7 +135,7 @@ public class EconomicsMenuScreen {
         searchWolfram.getChildren().add(searchTitle);
         searchWolfram.setAlignment(Pos.CENTER);
         searchWolfram.setSpacing(20);
-        TextField textSearch = new TextField();
+        textSearch = new TextField();
 
         searchBtn = new Button("Search");
         searchBtn.setTextFill(Color.WHITE);
@@ -142,14 +149,126 @@ public class EconomicsMenuScreen {
         return searchWolfram;
     }
 
+    public TextField getTextSearch() {
+        return textSearch;
+    }
+
+    public void setWolframQueryResults(WAQueryResult queryResult) {
+        Stage stageResults = new Stage();
+        BorderPane rootQueryResults = new BorderPane();
+        Scene scene = new Scene(rootQueryResults, 470, 350);
+        stageResults.setTitle("Search");
+        stageResults.setScene(scene);
+        stageResults.show();
+
+        ArrayList<VBox> listOfPods = new ArrayList<VBox>();
+        for (WAPod pod : queryResult.getPods()) {
+            if (!pod.isError()) {
+
+                VBox hb = new VBox();
+                hb.getChildren().add(new Label(pod.getTitle()));
+                for (WASubpod subpod : pod.getSubpods()) {
+
+                    for (Object element : subpod.getContents()) {
+                        System.out.println(element);
+                        if (element instanceof WAPlainText) {
+                            hb.getChildren().add(new Label(((WAPlainText) element).getText()));
+                            hb.getChildren().add(new Label(""));
+                        } else if(element instanceof WAImage) {
+                            System.out.println(((WAImage) element).getURL());
+                            Image imageWA = new Image(((WAImage) element).getURL());
+                            ImageView img2 = new ImageView(imageWA);
+                            img2.setFitHeight(400);
+                            img2.setFitWidth(450);
+
+                            img2.setPreserveRatio(true);
+                            img2.setOnMousePressed(new EventHandler<MouseEvent>() {
+                                @Override
+                                public void handle(MouseEvent event) {
+                                    imagePopupWindowShow(new ImageView(imageWA));
+                                }
+                            });
+                            hb.getChildren().add(img2);
+                        }
+                    }
+                }
+                listOfPods.add(hb);
+            }
+            rootQueryResults.setCenter(listOfPods.get(0));
+            Button btn2 = new Button();
+
+            btn2.setText("Next Fact");
+            btn2.setStyle("-fx-background-color: #EDEDF4;");
+
+            btn2.setOnAction(new EventHandler<ActionEvent>() {
+                int count = 0;
+                @Override
+                public void handle(ActionEvent event) {
+                    if(count > listOfPods.size() - 1) {
+                        rootQueryResults.setCenter(listOfPods.get(0));
+                        count = 0;
+                    } else {
+                        rootQueryResults.setCenter(listOfPods.get(count));
+                        count++;
+                    }
+                }
+
+            });
+            rootQueryResults.setBottom(btn2);
+        }
+    }
+
+    public void imagePopupWindowShow(ImageView imageView) {
+        // All of our necessary variables
+        System.out.println("Clicked");
+        Image image;
+        BorderPane pane;
+        Scene scene;
+        Stage stage;
+
+        // The path to your image can be a URL,
+        // or it can be a directory on your computer.
+        // If the picture is on your computer, type the path
+        // likes so:
+        //     C:\\Path\\To\\Image.jpg
+        // If you have a Mac, it's like this:
+        //     /Path/To/Image.jpg
+        // Replace the path with the one on your computer
+
+        // The same thing applies with audio files. Replace
+
+        // Our image will sit in the middle of our popup.
+        imageView.setFitHeight(400);
+        imageView.setFitWidth(400);
+
+        imageView.setPreserveRatio(true);
+
+        pane = new BorderPane();
+        pane.setCenter(imageView);
+        scene = new Scene(pane);
+
+        // Create the actual window and display it.
+        stage = new Stage();
+        stage.setScene(scene);
+        // Without this, the audio won't stop!
+        stage.setOnCloseRequest(
+                e -> {
+                    e.consume();
+                    stage.close();
+                }
+        );
+        stage.showAndWait();
+    }
+
     public ArrayList<CheckBox> getCheckBoxes() {
         return checkBoxes;
     }
 
-    public Button getSearchBtn() {
+    public Button getGraphSearchBtn() {
         return btn;
     }
 
-
-
+    public Button getSearchBtn() {
+        return searchBtn;
+    }
 }
