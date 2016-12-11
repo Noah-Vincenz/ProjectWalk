@@ -171,7 +171,6 @@ public class Networking {
 
             for (int i = 0; i < jsonArray.length(); ++i) {
                 JSONObject current = jsonArray.getJSONObject(i);
-
                 if (!current.isNull("name") && !current.isNull("source") && !current.isNull("industry") && !current.isNull("realTimeWorth")) {
                     Billionaire currentBillionaire = new Billionaire(current.getString("name"),
                             current.getString("source"),
