@@ -34,7 +34,7 @@ public class DataSaver {
     public void saveJSON(String jsonString, String fileName) {
         BufferedWriter writer = null;
         try {
-            File file = new File("json" + File.pathSeparator + fileName);
+            File file = new File("json" + File.separator + fileName);
             file.getParentFile().mkdirs();
             file.createNewFile();
             writer = new BufferedWriter(new FileWriter(file, false));
@@ -54,7 +54,7 @@ public class DataSaver {
     }
 
     public JSONArray getJSONFromFile(String fileName) throws IOException, JSONException {
-        BufferedReader br = new BufferedReader(new FileReader("json" + File.pathSeparator + fileName));
+        BufferedReader br = new BufferedReader(new FileReader("json" + File.separator + fileName));
         try {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
