@@ -31,6 +31,7 @@ public class EconomicsGraphDataController {
     private int noOfCountries;
     private int noOfYears;
     private String finalYear;
+    private Button btnSwitchGraph;
     private String indicator;
     private Stage stageMain;
     private SearchData modelSearch;
@@ -111,10 +112,11 @@ public class EconomicsGraphDataController {
                     if(countriesSelectedList.size() == 1) {
 
                         view.getLeftSide().setCenter(getOneCountryGraph());
-                        Button btn = new Button("Switch Graph Type");
-                        btn.getStyleClass().add("btn-success");
-                        btn.setAlignment(Pos.CENTER);
-                        btn.setOnAction(new EventHandler<ActionEvent>() {
+                        btnSwitchGraph = new Button("Switch Graph Type");
+                        btnSwitchGraph.getStyleClass().add("btn-success");
+
+                        btnSwitchGraph.setAlignment(Pos.CENTER);
+                        btnSwitchGraph.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
                                 if(view.getLeftSide().getCenter() instanceof LineChart) {
@@ -124,7 +126,7 @@ public class EconomicsGraphDataController {
                                 }
                             }
                         });
-                        view.getLeftSide().setBottom(btn);
+                        view.getLeftSide().setBottom(btnSwitchGraph);
                       //  OneCountryOneIndicatorLineChart o = new OneCountryOneIndicatorLineChart(getOneCountryGraph());
                     } else if(countriesSelectedList.size() > 1) {
                         view.getLeftSide().setCenter(getMultiCountryGraph());
@@ -245,6 +247,9 @@ public class EconomicsGraphDataController {
         view.getbillionairesViewBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                if(btnSwitchGraph != null) {
+                    btnSwitchGraph.setVisible(false);
+                }
                 view.setBillionairesView(billionaires,pieChart);
             }
         });
