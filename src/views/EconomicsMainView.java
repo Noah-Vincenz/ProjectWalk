@@ -66,6 +66,22 @@ public class EconomicsMainView {
 
     public void setRightPanel() {
         rightSide = new VBox();
+        Menu menu0 = new Menu("Revision");
+        MenuItem revisionGuide = new MenuItem("Revision Guide");
+        MenuItem quiz = new MenuItem("Quiz");
+        revisionGuide.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
+        quiz.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
+        menu0.getItems().addAll(revisionGuide,quiz);
         Menu menu1 = new Menu("About");
         MenuItem mAbout = new MenuItem("Credits");
         mAbout.setOnAction(new EventHandler<ActionEvent>() {
