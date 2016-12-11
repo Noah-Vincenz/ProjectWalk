@@ -231,7 +231,7 @@ public class Networking {
             } else {
                 toReturn = new JSONArray(stringBuilder.toString()).getJSONArray(1);
             }
-            DataSaver.getInstance().saveJSON(toReturn.toString(), urlString);
+            //DataSaver.getInstance().saveJSON(toReturn.toString(), urlString);
             return toReturn;
         }
     }
