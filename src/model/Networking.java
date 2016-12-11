@@ -172,7 +172,14 @@ public class Networking {
             for (int i = 0; i < jsonArray.length(); ++i) {
                 JSONObject current = jsonArray.getJSONObject(i);
 
-                if (!current.isNull("name") && !current.isNull("source") && !current.isNull("industry") && !current.isNull("realTimeWorth")) {
+                if (!current.isNull("squareImage") && isBillionaireValid(current)) {
+                    Billionaire currentBillionaire = new Billionaire(current.getString("name"),
+                            current.getString("source"),
+                            current.getString("industry"),
+                            current.getDouble("realTimeWorth"),
+                            current.getString("squareImage"));
+                    billionaires.add(currentBillionaire);
+                } else if (isBillionaireValid(current)) {
                     Billionaire currentBillionaire = new Billionaire(current.getString("name"),
                             current.getString("source"),
                             current.getString("industry"),
@@ -235,6 +242,14 @@ public class Networking {
             DataSaver.getInstance().saveJSON(toReturn.toString(), urlString);
             return toReturn;
         }
+    }
+
+    private boolean isBillionaireValid(JSONObject jsonObject) {
+        if (!jsonObject.isNull("name") && !jsonObject.isNull("source") && !jsonObject.isNull("industry") && !jsonObject.isNull("realTimeWorth")) {
+            return true;
+        }
+
+        return false;
     }
 
     public static void main(String args[]) {
