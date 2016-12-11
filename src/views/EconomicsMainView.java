@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -20,45 +21,151 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import javafx.scene.image.*;
 import com.wolfram.alpha.*;
+import model.Billionaire;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 
-public class EconomicsMenuScreen {
+public class EconomicsMainView {
     private ComboBox cbIndicators;
     private ArrayList<CheckBox> checkBoxes;
     private Button btn;
     private Button searchBtn;
     private TextField textSearch;
-
+    private VBox rightSide;
+    private Button billionairesViewBtn;
+    private BorderPane leftSide;
     private SplitPane root;
 
-    public EconomicsMenuScreen(Stage primaryStage) {
+    public EconomicsMainView(Stage primaryStage) {
         root = new SplitPane();
+        root.setDividerPositions(0.7f);
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         setLeftPanel();
         setRightPanel();
-        Scene scene = new Scene(root, 930, 750);
+        Scene scene = new Scene(root, primaryScreenBounds.getWidth(), 750);
+        scene.getStylesheets().add("resources/css/styling2.css");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
 
     public void setLeftPanel() {
-        BorderPane leftSide = new BorderPane();
+        leftSide = new BorderPane();
         Label centerLabel = new Label("The Economics of the World");
-        centerLabel.setStyle("-fx-font-size:34px; -fx-font-family:\"Helvetica\";");
+        centerLabel.getStyleClass().add("largeLabelTxt");
         centerLabel.setTextFill(Color.WHITE);
         leftSide.setCenter(centerLabel);
-        leftSide.setStyle("-fx-background-image: url(\"https://upload.wikimedia.org/wikipedia/commons/6/6e/London_Thames_Sunset_panorama_-_Feb_2008.jpg\"); -fx-background-size:cover;");
+        leftSide.getStyleClass().add("leftSideBg");
         root.getItems().add(leftSide);
     }
 
+    public BorderPane getLeftSide() {
+        return leftSide;
+    }
+
+
     public void setRightPanel() {
-        VBox rightSide = new VBox();
-        rightSide.setPadding(new Insets(50, 50, 50, 50));
+        rightSide = new VBox();
+        Menu menu1 = new Menu("About");
+        MenuItem mAbout = new MenuItem("Credits");
+        mAbout.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                aboutView();
+            }
+        });
+        menu1.getItems().addAll(mAbout);
+        Menu menu2 = new Menu("Help");
+        MenuItem mHelp = new MenuItem("Tutorial");
+        mHelp.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                helpView();
+            }
+        });
+        menu2.getItems().addAll(mHelp);
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().addAll(menu1, menu2);
+        rightSide.getChildren().add(menuBar);
         rightSide.setSpacing(10);
-        rightSide.setStyle("-fx-background-color:#FFFFFF;");
-        getGraphSettingsView();
-        rightSide.getChildren().addAll(getWolfram(),getGraphSettingsView());
+        rightSide.getStyleClass().add("bg-white");
+        VBox v = getGraphSettingsView();
+        v.setPadding(new Insets(30, 0, 0, 20));
+        rightSide.getChildren().addAll(v,getWolfram());
         root.getItems().add(rightSide);
     }
+
+
+    public void aboutView() {
+        VBox v = new VBox();
+        v.setAlignment(Pos.CENTER);
+        Label l = new Label("Credit:");
+        v.getChildren().add(l);
+        Scene scene = new Scene(v);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setOnCloseRequest(
+                e -> {
+                    e.consume();
+                    stage.close();
+                }
+        );
+        stage.showAndWait();
+    }
+
+    public void helpView() {
+        VBox v = new VBox();
+        v.setAlignment(Pos.CENTER);
+        Label l = new Label("Help:");
+        v.getChildren().add(l);
+        Scene scene = new Scene(v);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setOnCloseRequest(
+                e -> {
+                    e.consume();
+                    stage.close();
+                }
+        );
+        stage.showAndWait();
+    }
+
+    public void setBillionairesView(ArrayList<Billionaire> billionaires, PieChart bc) {
+        BorderPane h = new BorderPane();
+        for(int i = 0; i<billionaires.size(); i++) {
+            Billionaire b = billionaires.get(i);
+            VBox v = new VBox();
+            v.getChildren().addAll(new Label(String.valueOf(i+1) + "." + b.getName()),new Label(b.getIndustry()),new Label(String.valueOf(b.getWorthValue())));
+        }
+        h.setCenter(bc);
+        leftSide.setCenter(h);
+    }
+
+    public void billionairesDailyView(Billionaire b) {
+        VBox v = new VBox();
+        Label title = new Label("Today's Wealthiest Person on Earth");
+        v.setPadding(new Insets(30, 0, 0, 20));
+
+        VBox person = new VBox();
+        person.setPadding(new Insets(20,0,20,0));
+        Label name = new Label(b.getName());
+        Label networth = new Label("Net-Worth of " + String.valueOf(b.getWorthValue()) + "B");
+        name.getStyleClass().add("mediumLabelTxt");
+        networth.getStyleClass().add("mediumLabelTxt");
+
+        person.setSpacing(5);
+        person.getChildren().addAll(name,networth);
+
+        title.getStyleClass().add("h1");
+        billionairesViewBtn = new Button("View Billionaires Origins of Wealth");
+
+        billionairesViewBtn.setTextFill(Color.WHITE);
+        billionairesViewBtn.getStyleClass().add("btn-success");
+        billionairesViewBtn.setMinWidth(200);
+        v.getChildren().addAll(title,person,billionairesViewBtn);
+        rightSide.getChildren().add(1,v);
+    }
+
 
     public VBox getGraphSettingsView() {
         CheckBox United_Kingdom = new CheckBox("United Kingdom");
@@ -89,7 +196,7 @@ public class EconomicsMenuScreen {
         gpMid.setVgap(10);
         gpMid.setPadding(new Insets(10,0,10,0));
         VBox graphOptions = new VBox();
-        graphOptions.setPadding(new Insets(50,0,0,0));
+        graphOptions.setPadding(new Insets(0,0,0,0));
         graphOptions.setSpacing(10);
         cbIndicators = new ComboBox();
         cbIndicators.getItems().addAll("GDP","GDP Per Capita", "Unemployment",
@@ -97,15 +204,10 @@ public class EconomicsMenuScreen {
                 "Real Interest Rates", "Tax Rates");
         btn = new Button("Explore Visualizations'");
         btn.setTextFill(Color.WHITE);
-        btn.setStyle("-fx-background-color: \n" +
-                "        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #FE9486 100%),\n" +
-                "        #9d4024,\n" +
-                "        #d86e3a,\n" +
-                "        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #FE9486); -fx-font-size:18px; -fx-font-family:\"Helvetica\";");
+        btn.getStyleClass().add("btn-success");
         btn.setMinWidth(200);
         Text txtVisualisationToExplore = new Text("Select Visualisation to Explore:");
-        txtVisualisationToExplore.setFont(Font.font("Helvetica", 20));
-
+        txtVisualisationToExplore.getStyleClass().add("h1");
         graphOptions.getChildren().addAll(txtVisualisationToExplore,cbIndicators,gpMid,btn);
 
         //Array CheckBoxes
@@ -130,20 +232,18 @@ public class EconomicsMenuScreen {
     public VBox getWolfram() {
         VBox searchWolfram = new VBox();
         Label searchTitle = new Label("Have a Question? Ask Me?");
-        searchTitle.setStyle("-fx-font-size:20px; -fx-font-family:\"Helvetica\";");
+        searchTitle.getStyleClass().add("h1");
 
         searchWolfram.getChildren().add(searchTitle);
-        searchWolfram.setAlignment(Pos.CENTER);
+        searchWolfram.setPadding(new Insets(30, 30, 0, 20));
         searchWolfram.setSpacing(20);
         textSearch = new TextField();
-
+        textSearch.getStyleClass().add("input-txt");
+        textSearch.promptTextProperty().setValue("Minimum Wage in Mexico");
         searchBtn = new Button("Search");
         searchBtn.setTextFill(Color.WHITE);
-        searchBtn.setStyle("-fx-background-color: \n" +
-                "        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #FE9486 100%),\n" +
-                "        #9d4024,\n" +
-                "        #d86e3a,\n" +
-                "        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #FE9486); -fx-font-size:18px; -fx-font-family:\"Helvetica\";");
+        searchBtn.getStyleClass().add("btn-success");
+        searchBtn.setMinWidth(200);
         searchWolfram.getChildren().add(textSearch);
         searchWolfram.getChildren().add(searchBtn);
         return searchWolfram;
@@ -195,10 +295,8 @@ public class EconomicsMenuScreen {
                 listOfPods.add(hb);
             }
             rootQueryResults.setCenter(listOfPods.get(0));
-            Button btn2 = new Button();
-
-            btn2.setText("Next Fact");
-            btn2.setStyle("-fx-background-color: #EDEDF4;");
+            Button btn2 = new Button("Next Fact");
+            btn2.getStyleClass().add("btn-success");
 
             btn2.setOnAction(new EventHandler<ActionEvent>() {
                 int count = 0;
@@ -219,25 +317,11 @@ public class EconomicsMenuScreen {
     }
 
     public void imagePopupWindowShow(ImageView imageView) {
-        // All of our necessary variables
-        System.out.println("Clicked");
         Image image;
         BorderPane pane;
         Scene scene;
         Stage stage;
 
-        // The path to your image can be a URL,
-        // or it can be a directory on your computer.
-        // If the picture is on your computer, type the path
-        // likes so:
-        //     C:\\Path\\To\\Image.jpg
-        // If you have a Mac, it's like this:
-        //     /Path/To/Image.jpg
-        // Replace the path with the one on your computer
-
-        // The same thing applies with audio files. Replace
-
-        // Our image will sit in the middle of our popup.
         imageView.setFitHeight(400);
         imageView.setFitWidth(400);
 
@@ -246,11 +330,8 @@ public class EconomicsMenuScreen {
         pane = new BorderPane();
         pane.setCenter(imageView);
         scene = new Scene(pane);
-
-        // Create the actual window and display it.
         stage = new Stage();
         stage.setScene(scene);
-        // Without this, the audio won't stop!
         stage.setOnCloseRequest(
                 e -> {
                     e.consume();
@@ -259,6 +340,8 @@ public class EconomicsMenuScreen {
         );
         stage.showAndWait();
     }
+
+    public Button getbillionairesViewBtn() { return billionairesViewBtn; }
 
     public ArrayList<CheckBox> getCheckBoxes() {
         return checkBoxes;

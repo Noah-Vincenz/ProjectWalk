@@ -6,7 +6,7 @@
 
 
 import controllers.EconomicsGraphDataController;
-import views.EconomicsMenuScreen;
+import views.EconomicsMainView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -22,7 +22,7 @@ public class MainApp extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        EconomicsMenuScreen view = new EconomicsMenuScreen(primaryStage);
+        EconomicsMainView view = new EconomicsMainView(primaryStage);
 
         EconomicsGraphDataController o = new EconomicsGraphDataController(view);
     }
