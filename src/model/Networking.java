@@ -159,6 +159,42 @@ public class Networking {
         return toReturn;
     }
 
+    /**
+     * Method that will return a JSON string from a given URL String
+     *
+     * @param urlString - the URL String
+     * @return a String containing the JSON from the URL
+     */
+
+    private static JSONArray getJSONForURL(String urlString) throws IOException, JSONException {
+        if (DataSaver.getInstance().checkForFile(urlString)) {
+            return DataSaver.getInstance().getJSONFromFile(urlString);
+        } else {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            URL url = new URL(urlString);
+            URLConnection urlConnection = url.openConnection();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+
+            JSONArray toReturn;
+            if (!urlString.contains("worldbank")) {
+                toReturn = new JSONArray(stringBuilder.toString());
+            } else {
+                toReturn = new JSONArray(stringBuilder.toString()).getJSONArray(1);
+            }
+            DataSaver.getInstance().saveJSON(toReturn.toString(), urlString);
+            return toReturn;
+        }
+    }
+
+    public static void main(String args[]) {
+        System.out.println(Networking.getInstance().getBillionairesRange(30));
+    }
+
     public ArrayList<Billionaire> getBillionairesRange(int range) {
         String urlString = "http://www.forbes.com/ajax/list/data?year=2015&uri=billionaires&type=person";
 
@@ -202,41 +238,5 @@ public class Networking {
             e.printStackTrace();
             return null;
         }
-    }
-
-    /**
-     * Method that will return a JSON string from a given URL String
-     *
-     * @param urlString - the URL String
-     * @return a String containing the JSON from the URL
-     */
-
-    private static JSONArray getJSONForURL(String urlString) throws IOException, JSONException {
-        if (DataSaver.getInstance().checkForFile(urlString)) {
-            return DataSaver.getInstance().getJSONFromFile(urlString);
-        } else {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            URL url = new URL(urlString);
-            URLConnection urlConnection = url.openConnection();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-
-            JSONArray toReturn;
-            if (!urlString.contains("worldbank")) {
-                toReturn = new JSONArray(stringBuilder.toString());
-            } else {
-                toReturn = new JSONArray(stringBuilder.toString()).getJSONArray(1);
-            }
-            //DataSaver.getInstance().saveJSON(toReturn.toString(), urlString);
-            return toReturn;
-        }
-    }
-
-    public static void main(String args[]) {
-        System.out.println(Networking.getInstance().getBillionairesRange(30));
     }
 }
