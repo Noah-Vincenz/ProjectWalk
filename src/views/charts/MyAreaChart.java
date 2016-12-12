@@ -53,7 +53,7 @@ public class MyAreaChart {
         xAxis.setLabel("Year");
         yAxis.setLabel(indicator);
         final AreaChart<String,Number> areaChart = new AreaChart<String,Number>(xAxis,yAxis);
-        areaChart.setTitle("Area chart");
+        areaChart.setTitle(indicator);
         for (int i = 0; i < noOfCountries; ++i) {
             series = new XYChart.Series<String, Number>();
             countryCode = (String) codesList.toArray()[i];

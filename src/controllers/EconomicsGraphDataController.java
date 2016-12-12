@@ -90,24 +90,27 @@ public class EconomicsGraphDataController {
                 ComboBox visualisationSelected = view.getIndicatorSelection();
                 if (visualisationSelected.getSelectionModel().getSelectedItem() != null) {
                     String graphSelected = visualisationSelected.getSelectionModel().getSelectedItem().toString();
-                    if (graphSelected == "GDP") {
+                    System.out.println("Graph selected: " + graphSelected);
+                    if (graphSelected.equals("GDP")) {
                         indicatorCode = "NY.GDP.MKTP.KD.ZG";
-                    } else if (graphSelected == "GDP Per Capita") {
+                    } else if (graphSelected.equals("GDP Per Capita")) {
                         indicatorCode = "NY.GDP.PCAP.KD.ZG";
-                    } else if (graphSelected == "Unemployment") {
+                    } else if (graphSelected.equals("Unemployment")) {
                         indicatorCode = "SL.UEM.TOTL.ZS";
-                    } else if (graphSelected == "Consumer Price Index(Inflation") {
+                    } else if (graphSelected.equals("Consumer Price Index(Inflation)")) {
                         indicatorCode = "FP.CPI.TOTL.ZG";
-                    } else if (graphSelected == "Imports of Goods") {
+                    } else if (graphSelected.equals("Imports of Goods")) {
                         indicatorCode = "NE.IMP.GNFS.ZS";
-                    } else if (graphSelected == "Exports of Goods") {
+                    } else if (graphSelected.equals("Exports of Goods")) {
                         indicatorCode = "NE.EXP.GNFS.ZS";
-                    } else if (graphSelected == "Real Interest Rates") {
+                    } else if (graphSelected.equals("Real Interest Rates")) {
                         indicatorCode = "FR.INR.RINR";
-                    } else if (graphSelected == "Tax Rates") {
+                    } else if (graphSelected.equals("Tax Rates")) {
                         indicatorCode = "IC.TAX.TOTL.CP.ZS";
                     }
                 }
+
+                System.out.println("Indicator code: " + indicatorCode);
 
                 final String finalIndicatorCode = indicatorCode;
 

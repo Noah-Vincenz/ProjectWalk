@@ -48,7 +48,7 @@ public class MyLineChart {
         final CategoryAxis xAxis = new CategoryAxis(); //to make categories (ie months in this case)
         final NumberAxis yAxis = new NumberAxis();
         final LineChart<String,Number> lineChart = new LineChart<String,Number>(xAxis,yAxis);
-        lineChart.setTitle("Line Chart");
+        lineChart.setTitle(indicator);
         xAxis.setLabel("Year");
         yAxis.setLabel(indicator);
         for (int i = 0; i < noOfCountries; ++i) {
