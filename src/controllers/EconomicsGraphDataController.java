@@ -12,7 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import model.Billionaire;
 import model.Indicator;
-import model.Networking;
+import src.model.Networking;
 import model.SearchData;
 import views.EconomicsMainView;
 import javafx.collections.FXCollections;
