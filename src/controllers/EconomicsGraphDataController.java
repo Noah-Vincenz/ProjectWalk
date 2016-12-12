@@ -1,5 +1,7 @@
 package controllers;
 
+import views.charts.MyBarChart;
+import views.charts.MyLineChart;
 import com.wolfram.alpha.WAQueryResult;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -9,7 +11,6 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.stage.Stage;
 import model.Billionaire;
 import model.Indicator;
 import model.Networking;
@@ -33,8 +34,7 @@ public class EconomicsGraphDataController {
     private int noOfYears;
     private String finalYear;
     private Button btnSwitchGraph;
-    private String indicator;
-    private Stage stageMain;
+
     private SearchData modelSearch;
     private static ObservableList<PieChart.Data> list = FXCollections.observableList(new ArrayList<PieChart.Data>());
 
@@ -108,11 +108,14 @@ public class EconomicsGraphDataController {
                         indicatorCode = "IC.TAX.TOTL.CP.ZS";
                     }
                 }
+
+                final String finalIndicatorCode = indicatorCode;
+
                 try {
                     model = Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", "2015");
                     if(countriesSelectedList.size() == 1) {
 
-                        view.getLeftSide().setCenter(getOneCountryGraph());
+                        view.getLeftSide().setCenter(MyLineChart.getInstance().getLineChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", "2015")));
                         btnSwitchGraph = new Button("Switch Graph Type");
                         btnSwitchGraph.getStyleClass().add("btn-success");
 
@@ -121,109 +124,31 @@ public class EconomicsGraphDataController {
                             @Override
                             public void handle(ActionEvent event) {
                                 if(view.getLeftSide().getCenter() instanceof LineChart) {
-                                    view.getLeftSide().setCenter(getOneCountryGraphBarGraph());
+                                    try {
+                                        view.getLeftSide().setCenter(MyBarChart.getInstance().getBarChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, finalIndicatorCode, "1980", "2015")));
+                                    } catch(Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 } else {
-                                    view.getLeftSide().setCenter(getOneCountryGraph());
+                                    try {
+                                        view.getLeftSide().setCenter(MyLineChart.getInstance().getLineChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, finalIndicatorCode, "1980", "2015")));
+                                    } catch(Exception e) {
+                                        e.printStackTrace();
+                                    }
+
                                 }
                             }
                         });
                         view.getLeftSide().setBottom(btnSwitchGraph);
-                      //  OneCountryOneIndicatorLineChart o = new OneCountryOneIndicatorLineChart(getOneCountryGraph());
                     } else if(countriesSelectedList.size() > 1) {
-                        view.getLeftSide().setCenter(getMultiCountryGraph());
-                  //      MultCountryMultYearOneIndBarChart o = new MultCountryMultYearOneIndBarChart(getMultiCountryGraph());
+                        view.getLeftSide().setBottom(null);
+                        view.getLeftSide().setCenter(MyBarChart.getInstance().getBarChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", "2015")));
                     }
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         });
-    }
-
-
-    public BarChart<String,Number> getOneCountryGraphBarGraph() {
-        map = model;
-        codesList = map.keySet();
-        countryCode = (String) codesList.toArray()[0];
-        firstYear = (String) map.get(countryCode).keySet().toArray()[0]; //1st year
-        noOfYears = map.values().toArray()[0].toString().split("}").length;
-        finalYear = Integer.toString(Integer.parseInt(firstYear) + noOfYears - 1); //last year
-        indicator = map.get(countryCode).get(firstYear).getName();
-        //  o.setTitle(countryCode + "'s " + indicator + " from " + firstYear + " until " + finalYear);
-        final CategoryAxis xAxis = new CategoryAxis(); //to make categories (ie months in this case)
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Year");
-        yAxis.setLabel(indicator);
-        //creating the chart
-        final BarChart<String,Number> lineChart = new BarChart<String,Number>(xAxis,yAxis);
-        lineChart.setTitle(indicator + countryCode);
-        //defining a series
-        XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
-        series.setName(countryCode);
-        //populating the series with data
-        for(int i= 0; i < noOfYears; ++i) {
-            String year = (String) map.get(countryCode).keySet().toArray()[i];
-            series.getData().add(new XYChart.Data(year, map.get(countryCode).get(year).getValue()));
-        }
-        lineChart.getData().add(series);
-        return lineChart;
-    }
-
-    public LineChart<String,Number> getOneCountryGraph() {
-        map = model;
-        codesList = map.keySet();
-        countryCode = (String) codesList.toArray()[0];
-        firstYear = (String) map.get(countryCode).keySet().toArray()[0]; //1st year
-        noOfYears = map.values().toArray()[0].toString().split("}").length;
-        finalYear = Integer.toString(Integer.parseInt(firstYear) + noOfYears - 1); //last year
-        indicator = map.get(countryCode).get(firstYear).getName();
-      //  o.setTitle(countryCode + "'s " + indicator + " from " + firstYear + " until " + finalYear);
-        final CategoryAxis xAxis = new CategoryAxis(); //to make categories (ie months in this case)
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Year");
-        yAxis.setLabel(indicator);
-        //creating the chart
-        final LineChart<String,Number> lineChart = new LineChart<String,Number>(xAxis,yAxis);
-        lineChart.setTitle(indicator + " in " + countryCode);
-        //defining a series
-        XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
-        series.setName(countryCode);
-        //populating the series with data
-        for(int i= 0; i < noOfYears; ++i) {
-            String year = (String) map.get(countryCode).keySet().toArray()[i];
-            series.getData().add(new XYChart.Data(year, map.get(countryCode).get(year).getValue()));
-        }
-        lineChart.getData().add(series);
-        return lineChart;
-    }
-
-    public BarChart<String,Number> getMultiCountryGraph() {
-        map = model;
-        codesList = map.keySet();
-        countryCode = (String) codesList.toArray()[0]; //just random countryCode
-        firstYear = (String) map.get(countryCode).keySet().toArray()[0]; //1st year
-        noOfYears = map.values().toArray()[0].toString().split("}").length;
-        finalYear = Integer.toString(Integer.parseInt(firstYear) + noOfYears - 1);
-        noOfCountries = codesList.size();
-        indicator = map.get(countryCode).get(firstYear).getName();
-        stageMain.setTitle(indicator + " from " + firstYear + " until " + finalYear);
-        final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        final BarChart<String,Number> barChart = new BarChart<String,Number>(xAxis,yAxis);
-        barChart.setTitle("Country Summary");
-        xAxis.setLabel("Country");
-        yAxis.setLabel(indicator);
-        for(int i= 0; i < noOfYears; ++i) {
-            XYChart.Series series = new XYChart.Series();
-            series.setName(Integer.toString(Integer.parseInt(firstYear)+i));
-            for (int j = 0; j < noOfCountries; ++j) { //-----
-                String countryCode = (String) codesList.toArray()[j];
-                String year = Integer.toString(Integer.parseInt(firstYear)+i);
-                series.getData().add(new XYChart.Data(countryCode, map.get(countryCode).get(year).getValue()));
-            }
-            barChart.getData().addAll(series);
-        }
-        return barChart;
     }
 
     public void displayBillionaireData() {
