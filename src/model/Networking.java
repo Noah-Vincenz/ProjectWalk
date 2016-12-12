@@ -124,8 +124,6 @@ public class Networking {
 
             JSONArray jsonArray = getJSONForURL(urlString);
 
-            System.out.println(jsonArray);
-
             TreeMap<String, Indicator> yearsMap = new TreeMap<String, Indicator>();
 
             for (int j = 0; j < jsonArray.length(); ++j) {
