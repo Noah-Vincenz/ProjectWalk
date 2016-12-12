@@ -39,7 +39,7 @@ public class Networking {
      * @return ArrayList of object Country
      */
 
-    public static ArrayList<Country> getListOfCountries() throws JSONException, IOException {
+    public ArrayList<Country> getListOfCountries() throws JSONException, IOException {
         ArrayList<Country> countries = new ArrayList<Country>();
 
         String urlString = "http://api.worldbank.org/countries?format=json&per_page=10000";
@@ -65,7 +65,7 @@ public class Networking {
      * @return a map that has the country code as the key and as the object an instance of Indicator
      */
 
-    public static HashMap<String, Indicator> getLastIndicatorForCountries(ArrayList<String> countryCodes, String indicatorCode) throws IOException, JSONException {
+    public HashMap<String, Indicator> getLastIndicatorForCountries(ArrayList<String> countryCodes, String indicatorCode) throws IOException, JSONException {
 
         HashMap<String, Indicator> toReturn = new HashMap<String, Indicator>();
 
@@ -112,7 +112,7 @@ public class Networking {
      * For example, to get Germany's GDP for 2015 you'll have to write map.get("DE").get("2015")
      */
 
-    public static HashMap<String, TreeMap<String, Indicator>> getRangeOfIndicatorsForCountries(ArrayList<String> countryCodes, String indicatorCode, String beginYear, String endYear) throws JSONException, IOException {
+    public HashMap<String, TreeMap<String, Indicator>> getRangeOfIndicatorsForCountries(ArrayList<String> countryCodes, String indicatorCode, String beginYear, String endYear) throws JSONException, IOException {
 
         HashMap<String, TreeMap<String, Indicator>> toReturn = new HashMap<String, TreeMap<String, Indicator>>();
 
@@ -163,7 +163,7 @@ public class Networking {
      * @return a String containing the JSON from the URL
      */
 
-    private static JSONArray getJSONForURL(String urlString) throws IOException, JSONException {
+    private JSONArray getJSONForURL(String urlString) throws IOException, JSONException {
         if (DataSaver.getInstance().checkForFile(urlString)) {
             return DataSaver.getInstance().getJSONFromFile(urlString);
         } else {
@@ -186,10 +186,6 @@ public class Networking {
             DataSaver.getInstance().saveJSON(toReturn.toString(), urlString);
             return toReturn;
         }
-    }
-
-    public static void main(String args[]) {
-        System.out.println(Networking.getInstance().getBillionairesRange(30));
     }
 
     public ArrayList<Billionaire> getBillionairesRange(int range) {
