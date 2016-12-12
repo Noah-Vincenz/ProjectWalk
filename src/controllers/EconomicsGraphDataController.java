@@ -1,6 +1,7 @@
 package controllers;
 
 import com.wolfram.alpha.WAQueryResult;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -263,8 +264,13 @@ public class EconomicsGraphDataController {
         view.getSearchBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                WAQueryResult query = modelSearch.getResult(view.getTextSearch().getText());
-                view.setWolframQueryResults(query);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        WAQueryResult query = modelSearch.getResult(view.getTextSearch().getText());
+                        view.setWolframQueryResults(query);
+                    }
+                });
             }
         });
 
