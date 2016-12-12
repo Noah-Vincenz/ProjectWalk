@@ -18,7 +18,7 @@ import model.Indicator;
 public class MyLineChart {
 	
 	private Map <String, TreeMap<String, Indicator>> map;
-	private Set <String> codesList; //Just one Code in this case, because one country
+	private Set <String> codesList;
 	private String countryCode;
 	private String firstYear;
 	private int noOfYears;
@@ -26,6 +26,13 @@ public class MyLineChart {
     private int noOfCountries;
 	private String indicator;
 
+    /**
+     * Constructor for a MyLineChart
+     *
+     * @param stageMain stage
+     * @param hashMapIn hashMap to be passed in as parameter, containing the country codes as keys and
+     *                  TreeMaps of <String, Indicator> as Values
+     */
 	public MyLineChart(Stage stageMain, HashMap<String, TreeMap<String, Indicator>> hashMapIn) {
 		map = hashMapIn;
 		codesList = map.keySet();
@@ -42,7 +49,7 @@ public class MyLineChart {
         lineChart.setTitle("Line Chart");
         xAxis.setLabel("Year");
         yAxis.setLabel(indicator);
-        for (int i = 0; i < noOfCountries; ++i) { //-----
+        for (int i = 0; i < noOfCountries; ++i) {
             XYChart.Series series = new XYChart.Series<String, Number>();
             series.setName((String) codesList.toArray()[i]);
             for(int j = 0; j < noOfYears; ++j) {
@@ -50,7 +57,7 @@ public class MyLineChart {
                 String year = Integer.toString(Integer.parseInt(firstYear)+j);
                 series.getData().add(new XYChart.Data(year, map.get(countryCode).get(year).getValue()));
             }
-            lineChart.getData().addAll(series);
+            lineChart.getData().add(series);
         }
         Scene scene  = new Scene(lineChart,800,600);
         stageMain.setScene(scene);
