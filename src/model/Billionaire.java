@@ -8,12 +8,21 @@ public class Billionaire {
     private String company;
     private String industry;
     private double worthValue;
+    private String imageURL;
 
     public Billionaire(String name, String company, String industry, double worthValue) {
         this.name = name;
         this.company = company;
         this.industry = industry;
         this.worthValue = worthValue;
+    }
+
+    public Billionaire(String name, String company, String industry, double worthValue, String imageURL) {
+        this.name = name;
+        this.company = company;
+        this.industry = industry;
+        this.worthValue = worthValue;
+        this.imageURL = imageURL;
     }
 
     public String getName() {
