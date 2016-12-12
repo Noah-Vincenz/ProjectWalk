@@ -4,12 +4,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.xml.crypto.Data;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
@@ -159,59 +156,6 @@ public class Networking {
         return toReturn;
     }
 
-    public ArrayList<Billionaire> getBillionairesRange(int range) {
-        String urlString = "http://www.forbes.com/ajax/list/data?year=2015&uri=billionaires&type=person";
-
-        try {
-            JSONArray jsonArray = getJSONForURL(urlString);
-
-            // Check if the data was get from the local storage
-
-            ArrayList<Billionaire> billionaires  = new ArrayList<Billionaire>();
-
-            for (int i = 0; i < jsonArray.length(); ++i) {
-                JSONObject current = jsonArray.getJSONObject(i);
-
-                if (!current.isNull("squareImage") && isBillionaireValid(current)) {
-                    Billionaire currentBillionaire = new Billionaire(current.getString("name"),
-                            current.getString("source"),
-                            current.getString("industry"),
-                            current.getDouble("realTimeWorth"),
-                            current.getString("squareImage"));
-                    billionaires.add(currentBillionaire);
-                } else if (isBillionaireValid(current)) {
-                    Billionaire currentBillionaire = new Billionaire(current.getString("name"),
-                            current.getString("source"),
-                            current.getString("industry"),
-                            current.getDouble("realTimeWorth"));
-                    billionaires.add(currentBillionaire);
-                }
-            }
-
-            Collections.sort(billionaires, new Comparator<Billionaire>() {
-                @Override
-                public int compare(Billionaire o1, Billionaire o2) {
-                    if (o1.getWorthValue() < o2.getWorthValue()) {
-                        return 1;
-                    } else if (o1.getWorthValue() == o2.getWorthValue()) {
-                        return 0;
-                    }
-                    return -1;
-                }
-            });
-
-            ArrayList<Billionaire> toReturn = new ArrayList<Billionaire>();
-            for (int i = 0; i < range; ++i) {
-                toReturn.add(billionaires.get(i));
-            }
-
-            return toReturn;
-        } catch(Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     /**
      * Method that will return a JSON string from a given URL String
      *
@@ -244,15 +188,52 @@ public class Networking {
         }
     }
 
-    private boolean isBillionaireValid(JSONObject jsonObject) {
-        if (!jsonObject.isNull("name") && !jsonObject.isNull("source") && !jsonObject.isNull("industry") && !jsonObject.isNull("realTimeWorth")) {
-            return true;
-        }
-
-        return false;
-    }
-
     public static void main(String args[]) {
         System.out.println(Networking.getInstance().getBillionairesRange(30));
+    }
+
+    public ArrayList<Billionaire> getBillionairesRange(int range) {
+        String urlString = "http://www.forbes.com/ajax/list/data?year=2015&uri=billionaires&type=person";
+
+        try {
+            JSONArray jsonArray = getJSONForURL(urlString);
+
+            // Check if the data was get from the local storage
+
+            ArrayList<Billionaire> billionaires  = new ArrayList<Billionaire>();
+
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                JSONObject current = jsonArray.getJSONObject(i);
+                if (!current.isNull("name") && !current.isNull("source") && !current.isNull("industry") && !current.isNull("realTimeWorth")) {
+                    Billionaire currentBillionaire = new Billionaire(current.getString("name"),
+                            current.getString("source"),
+                            current.getString("industry"),
+                            current.getDouble("realTimeWorth"));
+                    billionaires.add(currentBillionaire);
+                }
+            }
+
+            Collections.sort(billionaires, new Comparator<Billionaire>() {
+                @Override
+                public int compare(Billionaire o1, Billionaire o2) {
+                    if (o1.getWorthValue() < o2.getWorthValue()) {
+                        return 1;
+                    } else if (o1.getWorthValue() == o2.getWorthValue()) {
+                        return 0;
+                    }
+                    return -1;
+                }
+            });
+
+            ArrayList<Billionaire> toReturn = new ArrayList<Billionaire>();
+            for (int i = 0; i < range; ++i) {
+                toReturn.add(billionaires.get(i));
+            }
+
+            return toReturn;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

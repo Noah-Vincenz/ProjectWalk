@@ -5,10 +5,10 @@
  */
 
 
-import views.EconomicsMenuScreen;
+import controllers.EconomicsGraphDataController;
+import views.EconomicsMainView;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import views.MapView;
 
 /**
  * The main application that will be compiled and executed through command line
@@ -22,15 +22,12 @@ public class MainApp extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-       // MapView m = new MapView();
+        EconomicsMainView view = new EconomicsMainView(primaryStage);
 
-        EconomicsMenuScreen o = new EconomicsMenuScreen(primaryStage);
+        EconomicsGraphDataController o = new EconomicsGraphDataController(view);
     }
 
-    public MainApp() {
-
-
-    }
+    public MainApp() {}
     /**
      * @param args the command line arguments
      */
