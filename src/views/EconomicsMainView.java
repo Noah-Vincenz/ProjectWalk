@@ -64,7 +64,7 @@ public class EconomicsMainView {
         centerLabel.getStyleClass().add("largeLabelTxt");
         centerLabel.setTextFill(Color.WHITE);
         leftSide.setCenter(centerLabel);
-        //leftSide.getStyleClass().add("leftSideBg");
+        leftSide.getStyleClass().add("leftSideBg");
         root.getItems().add(leftSide);
     }
 
