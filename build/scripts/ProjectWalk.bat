@@ -69,7 +69,7 @@ set CMD_LINE_ARGS=%$
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\ProjectWalk-1.0-verdigris.jar;%APP_HOME%\lib\json-20160810.jar;%APP_HOME%\lib\httpclient-4.1.2.jar;%APP_HOME%\lib\WolframAlpha-1.1.jar;%APP_HOME%\lib\commons-logging-1.1.1.jar;%APP_HOME%\lib\httpcore-4.1.2.jar;%APP_HOME%\lib\commons-codec-1.4.jar
+set CLASSPATH=%APP_HOME%\lib\ProjectWalk-1.0-verdigris.jar;%APP_HOME%\lib\json-20160810.jar;%APP_HOME%\lib\httpclient-4.1.2.jar;%APP_HOME%\lib\WolframAlpha-1.1.jar;%APP_HOME%\lib\commons-logging-1.1.1.jar;%APP_HOME%\lib\junit-4.11.jar;%APP_HOME%\lib\hamcrest-core-1.3.jar;%APP_HOME%\lib\httpcore-4.1.2.jar;%APP_HOME%\lib\commons-codec-1.4.jar
 
 @rem Execute ProjectWalk
 "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %PROJECT_WALK_OPTS%  -classpath "%CLASSPATH%" app_launcher.MainApp %CMD_LINE_ARGS%

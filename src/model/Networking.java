@@ -186,6 +186,12 @@ public class Networking {
         }
     }
 
+    /**
+     * Method to get top N billionaires in the world according to Forbes
+     * @param range - how many should be returned
+     * @return - ArrayList<Billionaire> with size = range, ordered descending
+     */
+
     public ArrayList<Billionaire> getBillionairesRange(int range) {
         String urlString = "http://www.forbes.com/ajax/list/data?year=2015&uri=billionaires&type=person";
 
