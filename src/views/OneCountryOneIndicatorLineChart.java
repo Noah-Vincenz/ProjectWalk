@@ -5,7 +5,7 @@ import javafx.scene.chart.LineChart;
 import javafx.stage.Stage;
 
 /**
- * Created by controllers on 28/11/2016.
+ * Created by Noah on 28/11/2016.
  */
 public class OneCountryOneIndicatorLineChart {
     private Stage stageMain;
