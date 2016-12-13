@@ -1,9 +1,7 @@
 package testing;
 
-import model.Billionaire;
-import model.Country;
-import model.Indicator;
-import model.Networking;
+import com.wolfram.alpha.WAQueryResult;
+import model.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -78,5 +76,36 @@ public class ModelTesting {
         } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testIndicator() {
+        Indicator indicator = new Indicator("Test", "test.test", 12.2);
+        Assert.assertTrue(indicator.getCode().equals("test.test"));
+        Assert.assertTrue(indicator.getName().equals("Test"));
+        Assert.assertTrue(indicator.getValue() == 12.2);
+    }
+
+    @Test
+    public void testBillionaire() {
+        Billionaire billionaire = new Billionaire("Alex", "Rex Software", "IT", 12345.67);
+        Assert.assertTrue(billionaire.getName().equals("Alex"));
+        Assert.assertEquals(billionaire.getWorthValue(), 123456.67);
+        Assert.assertEquals(billionaire.getCompany(), "Rex Software");
+        Assert.assertEquals(billionaire.getIndustry(), "IT");
+    }
+
+    @Test
+    public void testCountry() {
+        Country country = new Country("Romania", "RO");
+        Assert.assertEquals(country.getCode(), "RO");
+        Assert.assertEquals(country.getName(), "Romania");
+    }
+
+    @Test
+    public void testWolfram() {
+        SearchData searchData = new SearchData();
+        WAQueryResult result = searchData.getResult("GDP in Romania");
+        Assert.assertNotNull(result);
     }
 }
