@@ -52,7 +52,7 @@ public class EconomicsMainView {
         setLeftPanel();
         setRightPanel();
         Scene scene = new Scene(root, primaryScreenBounds.getWidth(), 750);
-        scene.getStylesheets().add("resources/css/styling2.css");
+        scene.getStylesheets().add("/css/styling2.css");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
