@@ -26,10 +26,23 @@ public class DataSaver {
         return instance;
     }
 
+    /**
+     * Method to check if file exists
+     * @param fileName - the name of the file you wish to check
+     * @return - true if the file exists and vice versa
+     * @throws IOException - thrown if something is invalid
+     */
+
     public boolean checkForFile(String fileName) throws IOException {
         File jsonFile = new File(fileName);
         return jsonFile.exists();
     }
+
+    /**
+     * Method to save a JSON locally
+     * @param jsonString - String of the JSON
+     * @param fileName - the name of the file to be saved in
+     */
 
     public void saveJSON(String jsonString, String fileName) {
         BufferedWriter writer = null;
@@ -52,6 +65,14 @@ public class DataSaver {
             }
         }
     }
+
+    /**
+     * Method to get the JSON from a certain file
+     * @param fileName - the name of the file from where to get the JSON
+     * @return - JSONArray built from the JSON in the file
+     * @throws IOException - thrown when something is invalid in the filename
+     * @throws JSONException - thrown when something is invalid in the JSON
+     */
 
     public JSONArray getJSONFromFile(String fileName) throws IOException, JSONException {
         BufferedReader br = new BufferedReader(new FileReader("json" + File.separator + fileName));
