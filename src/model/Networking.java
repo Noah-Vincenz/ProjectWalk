@@ -81,7 +81,7 @@ public class Networking {
             for (int j = 0; j < jsonArray.length(); ++j) {
                 JSONObject current = jsonArray.getJSONObject(j);
                 JSONObject indicatorObject = current.getJSONObject("indicator");
-                if (!current.getString("value").equals("null")) {
+                if (!current.isNull("value")) {
                     String name = indicatorObject.getString("value");
                     String stringValue = current.getString("value");
 
@@ -130,21 +130,23 @@ public class Networking {
 
                 JSONObject current = jsonArray.getJSONObject(j);
 
-                String date = current.getString("date");
+                if (!current.isNull("indicator") && !current.isNull("date") && !current.isNull("value")) {
+                    String date = current.getString("date");
 
-                JSONObject indicatorObject = current.getJSONObject("indicator");
-                String name = indicatorObject.getString("value");
-                String stringValue = current.getString("value");
+                    JSONObject indicatorObject = current.getJSONObject("indicator");
+                    String name = indicatorObject.getString("value");
+                    String stringValue = current.getString("value");
 
-                double value;
+                    double value;
 
-                if (stringValue.equals("null")) {
-                    value = 0;
-                } else {
-                    value = Double.parseDouble(stringValue);
+                    if (stringValue.equals("null")) {
+                        value = 0;
+                    } else {
+                        value = Double.parseDouble(stringValue);
 
+                    }
+                    yearsMap.put(date, new Indicator(name, indicatorCode, value));
                 }
-                yearsMap.put(date, new Indicator(name, indicatorCode, value));
             }
 
             toReturn.put(currentCountry, yearsMap);
