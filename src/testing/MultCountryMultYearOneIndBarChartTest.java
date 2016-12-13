@@ -1,4 +1,4 @@
-package views;
+package testing;
 
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;

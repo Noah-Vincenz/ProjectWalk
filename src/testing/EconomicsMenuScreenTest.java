@@ -1,4 +1,4 @@
-package views;
+package testing;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
