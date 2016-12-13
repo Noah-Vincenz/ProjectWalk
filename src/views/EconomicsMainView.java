@@ -52,12 +52,14 @@ public class EconomicsMainView {
         setLeftPanel();
         setRightPanel();
         Scene scene = new Scene(root, primaryScreenBounds.getWidth(), 750);
-        scene.getStylesheets().add("/css/styling2.css");
+        scene.getStylesheets().add("resources/css/styling2.css");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-
+    /**
+     *
+     */
     public void setLeftPanel() {
         leftSide = new BorderPane();
         Label centerLabel = new Label("The Economics of the World");
@@ -68,10 +70,25 @@ public class EconomicsMainView {
         root.getItems().add(leftSide);
     }
 
+    /**
+     * returns the leftSide of the primaryStage
+     * @return leftSide
+     */
     public BorderPane getLeftSide() {
         return leftSide;
     }
-    //Creates the borderpane for the revision guide with the hyperlinks and data necessary
+
+    /**
+     * Creates a BorderPane called bpRevisionGuide and a VBox called All_Units.
+     * Creates strings containing information on each topic.
+     * Hyperlinks of topic names and text titles of topics are added All_Units.
+     * All_Units is added to setLeft of BorderPane.
+     * Then a TextArea is added to the center of BorderPane
+     * ActionListeners are created for each HyperLink and based on which is pressed
+     * the text of the TextArea is set to the strings containing the relavent data.
+     * Some designing on All_Units, TextArea, and BorderPane to make it more appealing.
+     * @return bpRevisionGuide
+     */
     public BorderPane revGuide() {
         BorderPane bpRevisionGuide = new BorderPane();
         VBox All_Units = new VBox();
@@ -93,8 +110,8 @@ public class EconomicsMainView {
         String ep = ("                                                                     Economic Performance\n\n" +
                 "The Objectives of Government Economic Policy - Consistent prices to keep low inflation. Balanced and controlled economic growth. Either full employment or minimum unemployment. A level-headed balance of payments.\n" +
                 "\nEconomic Growth - Rapid economic growth means aggregate demand also known as GDP causes an increase in real GDP means there is an increase in the value of national output / national expenditure. Some benefits of economic growth are Increase in incomes, employment and tax revenue.\n" +
-                "\nInflation and Deflation - Inflation -  A consistent increase in the price of goods and services over time.  During inflationary times, money loses its \"buying\" or \"purchasing\" power, and it takes more units of currency to purchase the same units of goods or services.  Over time, inflation lowers the value of each unit of currency.\n" +
-                "\nDeflation -  A consistent decrease in the price of goods and services over time.  During deflationary times, money increases in its \"buying\" or \"purchasing\" power, and it takes less units of currency to purchase the same units of goods or services.  Over time, deflation increases the value of each unit of currency.\n" +
+                "\nInflation and Deflation - Inflation -  A consistent increase in the price of goods and services over time.  During inflationary times, money loses its \"buying\" or \"purchasing\" power, and it takes more units of currency to purchase the same units of goods or services.  Over time, inflation lowers the value of each unit of currency.\n" +
+                "\nDeflation -  A consistent decrease in the price of goods and services over time.  During deflationary times, money increases in its \"buying\" or \"purchasing\" power, and it takes less units of currency to purchase the same units of goods or services.  Over time, deflation increases the value of each unit of currency.\n" +
                 "Employment and Unemployment - The economic objective of the economy as always been full employment, but it is not possible to give a numerical definition to unemployment rate.  \n" +
                 "\nUnemployment is the number of people who are actively searching for work. Unemployment can be reduced by retraining employees.\n" +
                 "\nUnemployment Effects - Negative Multiplier Effect - Unemployed individuals, as mentioned above, are not able to spend as much money on goods and services. Loss of tax revenue as less people are working hence less people are paying their taxes. Society becauses less equal and the gap between the wealth and income of the employed and unemployed become greater. This can lead to higher crime rates, lower quality of healthy goods and living.\n" +
@@ -169,6 +186,21 @@ public class EconomicsMainView {
         bpRevisionGuide.setCenter(mainDefinitions);
         return bpRevisionGuide;
     }
+
+    /**
+     * Creates a GridPane called gp_Quiz1.
+     * Creates a VBox for each selection of radiobuttons.
+     * Create ToggleGroup for each selection of radiobuttons for each question.
+     * Create Text questions.
+     * add the questions and Vboxes to the GridPane
+     * Created action listeners for each one and used boolean values to keep track
+     * of the correct selected radiobutton for each question.
+     * Created button called results and added an action listener to it that uses
+     * if statements to check if the boolean values are true and if so counter is
+     * increased. At the end a Alert message gets created to inform the user of how
+     * many questions they answered correctly.
+     * @return spQuiz
+     */
     public ScrollPane quizGuide() {
         GridPane gp_Quiz1 = new GridPane();
         VBox choices1 = new VBox();
@@ -394,6 +426,25 @@ public class EconomicsMainView {
 
         return spQuiz;
     }
+
+    /**
+     * The method setRightPanel creates 3 Menus, 'Revision', 'About' and 'Help'.
+     * Revision has two Menu items, Revision Guide and Quiz.
+     * To create the view for Revision Guide, the method revGuide is called to create BorderPane
+     * with the relevant information. An action listener is set for Revision Guide so when it is called
+     * a scene and stage with information will be shown. The same goes for Quiz except it is in a ScrollPane.
+     *
+     * The About has one MenuItem called Credits and this basically creates a BorderPane
+     * with labels and text containing the relevant information and puts that into a scene.
+     * That scene is then set to a new stage and it is shown when the action listener is activated.
+     *
+     * The Help has one MenuItem called Tutorial and this basically creates a BorderPane
+     * with labels and text containing information on how to use the application and puts that into a scene.
+     * That scene is then set to a new stage and it is shown when the action listener is activated.
+     *
+     * These menus are then added to the right Panel.
+     * Then the method graphsettingsView gets called and added to the right Panel.
+     */
     public void setRightPanel() {
         rightSide = new VBox();
         Menu menu0 = new Menu("Revision");
@@ -452,12 +503,40 @@ public class EconomicsMainView {
         root.getItems().add(rightSide);
     }
 
-
+    /**
+     * The aboutView method creates a BorderPane with labels and text containing the relevant information
+     * and puts that into a scene.
+     * That scene is then set to a new stage and it is shown when the action listener is activated.
+     * Some functionality such as setCloseRequest is also added.
+     */
     public void aboutView() {
         VBox v = new VBox();
         v.setAlignment(Pos.CENTER);
-        Label l = new Label("Credit:");
-        v.getChildren().add(l);
+        Label ll = new Label("Credits:");
+        Text t2 = new Text ("This application was developed by the following members");
+        t2.setFont(Font.font("Times New Roman", 15));
+        Label l2 = new Label(
+                "Ion-Alexandru Clapa \n" +
+                        "Noah-Vincenz (Noah) Nöh\n" +
+                        "Okan Hoplar\n" +
+                        "Jaiten Gill\n" +
+                        "Arunita Roy\n");
+
+        Text t3 = new Text ("This application used the following libraries:");
+        t3.setFont(Font.font("Times New Roman", 15));
+        Label l3 = new Label(
+                "WolframAlpha - http://www.wolframalpha.com/\n" +
+                        "Json - http://www.json.org/\n" +
+                        "WorldBank - http://www.worldbank.org/\n" +
+                        "Commons Codec - https://commons.apache.org/proper/commons-codec/\n" +
+                        "Commons Logging - https://commons.apache.org/proper/commons-logging/\n" +
+                        "HTTP Client and Core - https://hc.apache.org/downloads.cgi\n");
+
+        Text t4 = new Text ("The following resources were used to create this application: ");
+        t4.setFont(Font.font("Times New Roman", 15));
+
+        Label l4 = new Label("\nhttps://upload.wikimedia.org/wikipedia/commons/6/6e/London_Thames_Sunset_panorama_-_Feb_2008.jpg");
+        v.getChildren().addAll(ll,t2,l2, t3,l3, t4, l4);
         Scene scene = new Scene(v);
         Stage stage = new Stage();
         stage.setScene(scene);
@@ -470,11 +549,33 @@ public class EconomicsMainView {
         stage.showAndWait();
     }
 
+    /**
+     * Creates a scene and stage containing labels and texts to infrom the user
+     * of how to use the application correctly.
+     */
     public void helpView() {
         VBox v = new VBox();
         v.setAlignment(Pos.CENTER);
-        Label l = new Label("Help:");
-        v.getChildren().add(l);
+        Text t1 = new Text ("Help: ");
+        t1.setFont(Font.font("Times New Roman", 15));
+        Label ll = new Label(
+                "1) The left side of the application shows data using data visualisations such as Line/Bar/Pie charts. \n" +
+                        "2) At the top of the right side we have three menus the user can click on and menu items will pop down. \n" +
+                        "3) Once you select an menu item a new stage will popup, and it will show data relevant to what you selected. \n" +
+                        "4) If you clicked on Revision Guide, you will encounter an interactive stage, where you can select a topic" +
+                        "on the left side of the stage and relevant information will popup on the right side of the stage \n" +
+                        "5) If you clicked on Quiz, you will encounter another interactive quiz where you will be required to select" +
+                        "answers to 6 questions and once you click on the result button, another window will popup informing you" +
+                        "of how many questions you answered correctly.\n" +
+                        "6) Below those options you will see text field informing you of the top billionaire and a button called" +
+                        "'View Billionaires Origins of Wealth'. Once this button is clicked a pie chart on the left side of the application" +
+                        "should popup with the relevant information\n" +
+                        "7) You are required to select an indicator as well as at least one country in order to use the Explore Visualisations option.\n" +
+                        "8) You are required to write a query before you press the 'Search' button so there is data to be retrieved. Once 'Search'" +
+                        "button is clicked a new stage will pop up with the relevan information and a button called 'next Fact' will also" +
+                        "allow you to navigate through different facts.");
+
+        v.getChildren().addAll(t1, ll);
         Scene scene = new Scene(v);
         Stage stage = new Stage();
         stage.setScene(scene);
@@ -487,6 +588,15 @@ public class EconomicsMainView {
         stage.showAndWait();
     }
 
+    /**
+     * The method setBillionairesView takes an arraylist of billionaires and a Piechart in its parameter.
+     * It goes through the list of billionaires using a for loop and creates a VBox
+     * that stores the relevant data of the amount of money they make based on the industry.
+     * Creates a BorderPane called h and stores the PieChart in center and then
+     * it is added to the center of leftSide BorderPane which is the left side of the primary stage.
+     * @param billionaires
+     * @param bc
+     */
     public void setBillionairesView(ArrayList<Billionaire> billionaires, PieChart bc) {
         BorderPane h = new BorderPane();
         for(int i = 0; i<billionaires.size(); i++) {
@@ -498,6 +608,11 @@ public class EconomicsMainView {
         leftSide.setCenter(h);
     }
 
+    /**
+     * The method billionairesDailyView takes into its parameter a Billionaire
+     * and creat
+     * @param b
+     */
     public void billionairesDailyView(Billionaire b) {
         VBox v = new VBox();
         Label title = new Label("Today's Wealthiest Person on Earth");
@@ -523,7 +638,13 @@ public class EconomicsMainView {
         rightSide.getChildren().add(1,v);
     }
 
-
+    /**
+     * The method getGraphSettingsView creates a GridPane containing all the countries
+     * which are CheckBoxes. Then combobox of Indicators and corresponding buttons are added.
+     * Then the CheckBoxes created earlier are added to an array of CheckBoxes.
+     * Lastly the GridPane is added to a VBox and returned.
+     * @return grapthOptions
+     */
     public VBox getGraphSettingsView() {
         CheckBox United_Kingdom = new CheckBox("United Kingdom");
         CheckBox United_States = new CheckBox("United States");
@@ -559,7 +680,7 @@ public class EconomicsMainView {
         cbIndicators.getItems().addAll("GDP","GDP Per Capita", "Unemployment",
                 "Consumer Price Index(Inflation)", "Imports of Goods", "Exports of Goods",
                 "Real Interest Rates", "Tax Rates");
-        btn = new Button("Explore Visualizations");
+        btn = new Button("Explore Visualizations'");
         btn.setTextFill(Color.WHITE);
         btn.getStyleClass().add("btn-success");
         btn.setMinWidth(200);
@@ -582,13 +703,21 @@ public class EconomicsMainView {
         return graphOptions;
     }
 
+    /**
+     * The Method getIndicatorSelection returns the Combobox of indicators.
+     * @return cbIndicators
+     */
     public ComboBox getIndicatorSelection() {
         return cbIndicators;
     }
 
+    /**
+     * This method uses the searchWolfram to create the
+     * @return
+     */
     public VBox getWolfram() {
         VBox searchWolfram = new VBox();
-        Label searchTitle = new Label("Have a Question? Ask Me!");
+        Label searchTitle = new Label("Have a Question? Ask Me?");
         searchTitle.getStyleClass().add("h1");
 
         searchWolfram.getChildren().add(searchTitle);
@@ -606,10 +735,18 @@ public class EconomicsMainView {
         return searchWolfram;
     }
 
+    /**
+     * The method getTextSearch returns a textfield for the searchbutton.
+     * @return textSearch
+     */
     public TextField getTextSearch() {
         return textSearch;
     }
 
+    /**
+     *
+     * @param queryResult
+     */
     public void setWolframQueryResults(WAQueryResult queryResult) {
         Stage stageResults = new Stage();
         BorderPane rootQueryResults = new BorderPane();
@@ -698,16 +835,32 @@ public class EconomicsMainView {
         stage.showAndWait();
     }
 
+    /**
+     * Method getbillionairesViewBtn returns a billionaires button.
+     * @return billionairesViewBtn
+     */
     public Button getbillionairesViewBtn() { return billionairesViewBtn; }
 
+    /**
+     * Method getCheckBoxes returns an arrayList of checkboxes.
+     * @return checkBoxes
+     */
     public ArrayList<CheckBox> getCheckBoxes() {
         return checkBoxes;
     }
 
+    /**
+     * Method getGraphSearchBtn returns the search button for the grapth.
+     * @return btn
+     */
     public Button getGraphSearchBtn() {
         return btn;
     }
 
+    /**
+     * Method getSearchBtn returns the search button.
+     * @return searchBtn
+     */
     public Button getSearchBtn() {
         return searchBtn;
     }

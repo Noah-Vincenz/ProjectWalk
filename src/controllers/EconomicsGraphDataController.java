@@ -39,6 +39,13 @@ public class EconomicsGraphDataController {
     private static ObservableList<PieChart.Data> list = FXCollections.observableList(new ArrayList<PieChart.Data>());
 
     //Graph Data Controller
+
+    /**
+     * The EconomicsGraphDataController takes object EconomicsMainView which is a
+     * stage as a parameter uses setSelectionButtonListener, searchWolframEnabled,
+     * billionairesDailyView and displayBillionaireData to set the stage up properly.
+     * @param viewMain
+     */
     public EconomicsGraphDataController(EconomicsMainView viewMain) {
         view = viewMain;
         setSelectionButtonListener();
@@ -48,7 +55,18 @@ public class EconomicsGraphDataController {
         displayBillionaireData();
     }
 
-
+    /**
+     * The setSelectionButtonListener method gets called whenever the search button is clicked,
+     * it checks to see which combobox for each country is selected and based on that it adds it
+     * to the arrayList countriesSelectedList containing the selected countries.
+     *
+     * It then compares every indicators name till it finds the selected indicator and makes the
+     * indicatorCode equal to the corresponding code for the name.
+     *
+     * Then, it checks to see if the selected number of countries is equal to 1 and if so it creates
+     * a line graph based on the indicator chosen. Else, it creates a bar chart containing all the
+     * countries chosen and the corresponding indicator.
+     */
     public void setSelectionButtonListener() {
         view.getGraphSearchBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -110,16 +128,15 @@ public class EconomicsGraphDataController {
                     }
                 }
 
+                System.out.println("Indicator code: " + indicatorCode);
+
                 final String finalIndicatorCode = indicatorCode;
 
                 try {
-                    Calendar now = Calendar.getInstance();   // Gets the current date and time
-                    int year = now.get(Calendar.YEAR);       // The current year
-                    String currentYear = Integer.toString(year);
-                    model = Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", currentYear);
+                    model = Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", "2015");
                     if(countriesSelectedList.size() == 1) {
 
-                        view.getLeftSide().setCenter(MyLineChart.getInstance().getLineChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", currentYear)));
+                        view.getLeftSide().setCenter(MyLineChart.getInstance().getLineChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", "2015")));
                         btnSwitchGraph = new Button("Switch Graph Type");
                         btnSwitchGraph.getStyleClass().add("btn-success");
 
@@ -127,16 +144,15 @@ public class EconomicsGraphDataController {
                         btnSwitchGraph.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
-
                                 if(view.getLeftSide().getCenter() instanceof LineChart) {
                                     try {
-                                        view.getLeftSide().setCenter(MyBarChart.getInstance().getBarChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, finalIndicatorCode, "1980", currentYear)));
+                                        view.getLeftSide().setCenter(MyBarChart.getInstance().getBarChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, finalIndicatorCode, "1980", "2015")));
                                     } catch(Exception e) {
                                         e.printStackTrace();
                                     }
                                 } else {
                                     try {
-                                        view.getLeftSide().setCenter(MyLineChart.getInstance().getLineChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, finalIndicatorCode, "1980", currentYear)));
+                                        view.getLeftSide().setCenter(MyLineChart.getInstance().getLineChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, finalIndicatorCode, "1980", "2015")));
                                     } catch(Exception e) {
                                         e.printStackTrace();
                                     }
@@ -147,7 +163,7 @@ public class EconomicsGraphDataController {
                         view.getLeftSide().setBottom(btnSwitchGraph);
                     } else if(countriesSelectedList.size() > 1) {
                         view.getLeftSide().setBottom(null);
-                        view.getLeftSide().setCenter(MyBarChart.getInstance().getBarChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", currentYear)));
+                        view.getLeftSide().setCenter(MyBarChart.getInstance().getBarChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", "2015")));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -156,6 +172,13 @@ public class EconomicsGraphDataController {
         });
     }
 
+    /**
+     * The displayBillionaireData creates a HashMap containing the string value which is the
+     * industry of where they earn their money and double value of how much they earn.
+     *
+     * It uses a for loop to through the whole list of billionaires and checks to see which
+     * industries earn them the most money. The data from the HashMap is then added to the PieChart.
+     */
     public void displayBillionaireData() {
         ArrayList<Billionaire> billionaires = Networking.getInstance().getBillionairesRange(30);
 
@@ -171,7 +194,7 @@ public class EconomicsGraphDataController {
         }
 
         pieChart.setData(list);
-        pieChart.setTitle("Where Billionaires Made Their Money?");
+        pieChart.setTitle("Where Billionaires Made There Money?");
         pieChart.setClockwise(false);
         pieChart.setLabelsVisible(false);
 
@@ -186,10 +209,19 @@ public class EconomicsGraphDataController {
         });
     }
 
+    /**
+     * The billionairesDailyView method is very similar to the displayBillionaireData method except
+     * it only gets the data for that day specifically.
+     */
     public void billionairesDailyView() {
         ArrayList<Billionaire> billionaires = Networking.getInstance().getBillionairesRange(1);
         view.billionairesDailyView(billionaires.get(0));
     }
+
+    /**
+     * The searchWolframEnabled creates a action listener for the search button for the Wolfram Alpha Query
+     * and it calls the getResult method on the query, which then sets the view with the relevant data.
+     */
     public void searchWolframEnabled() {
         view.getSearchBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -206,4 +238,3 @@ public class EconomicsGraphDataController {
 
     }
 }
-
