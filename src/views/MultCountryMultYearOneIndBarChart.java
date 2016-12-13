@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.stage.Stage;
 /**
- * Created by controllers on 28/11/2016.
+ * Created by Noah on 28/11/2016.
  */	 
 public class MultCountryMultYearOneIndBarChart {
 	private Stage stageMain;
