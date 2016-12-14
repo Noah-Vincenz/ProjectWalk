@@ -91,7 +91,6 @@ public class Networking {
                         value = 0;
                     } else {
                         value = Double.parseDouble(stringValue);
-
                     }
                     toReturn.put(currentCountry, new Indicator(name, indicatorCode, value));
                 }
@@ -143,7 +142,6 @@ public class Networking {
                         value = 0;
                     } else {
                         value = Double.parseDouble(stringValue);
-
                     }
                     yearsMap.put(date, new Indicator(name, indicatorCode, value));
                 }
@@ -155,7 +153,6 @@ public class Networking {
 
         return toReturn;
     }
-
     /**
      * Method that will return a JSON string from a given URL String
      *

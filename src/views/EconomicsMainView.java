@@ -67,6 +67,7 @@ public class EconomicsMainView {
         } catch(MalformedURLException ex) {
 
         }
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -707,7 +708,7 @@ public class EconomicsMainView {
         cbIndicators.getItems().addAll("GDP","GDP Per Capita", "Unemployment",
                 "Consumer Price Index(Inflation)", "Imports of Goods", "Exports of Goods",
                 "Real Interest Rates", "Tax Rates");
-        btn = new Button("Explore Visualizations'");
+        btn = new Button("Explore Visualizations");
         btn.setTextFill(Color.WHITE);
         btn.getStyleClass().add("btn-success");
         btn.setMinWidth(200);
@@ -744,7 +745,7 @@ public class EconomicsMainView {
      */
     public VBox getWolfram() {
         VBox searchWolfram = new VBox();
-        Label searchTitle = new Label("Have a Question? Ask Me?");
+        Label searchTitle = new Label("Have a Question? Ask Me!");
         searchTitle.getStyleClass().add("h1");
 
         searchWolfram.getChildren().add(searchTitle);

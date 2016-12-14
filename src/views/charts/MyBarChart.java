@@ -62,7 +62,10 @@ public class MyBarChart {
 			for (int j = 0; j < noOfCountries; ++j) {
 				countryCode = (String) codesList.toArray()[j];
 				String year = Integer.toString(Integer.parseInt(firstYear)+i);
-				series.getData().add(new XYChart.Data(countryCode, map.get(countryCode).get(year).getValue()));
+				if (map.get(countryCode).get(year) != null) {
+					series.getData().add(new XYChart.Data(countryCode, map.get(countryCode).get(year).getValue()));
+				}
+
 			}
 			barChart.getData().add(series);
 		}
