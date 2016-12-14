@@ -194,7 +194,7 @@ public class EconomicsGraphDataController {
         }
 
         pieChart.setData(list);
-        pieChart.setTitle("Where Billionaires Made There Money?");
+        pieChart.setTitle("Where Billionaires Made Their Money?");
         pieChart.setClockwise(false);
         pieChart.setLabelsVisible(false);
 
