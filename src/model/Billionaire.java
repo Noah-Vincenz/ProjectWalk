@@ -41,9 +41,6 @@ public class Billionaire {
         this.worthValue = worthValue;
         this.imageURL = imageURL;
     }
-
-<<<<<<< HEAD
-=======
         /**
      * Getter for Image Url field
      * @return - String of their image url
@@ -53,7 +50,6 @@ public class Billionaire {
         return imageURL;
     }
 
->>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
     /**
      * Getter for name field
      * @return - String of their name

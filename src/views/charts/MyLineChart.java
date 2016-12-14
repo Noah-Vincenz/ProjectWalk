@@ -60,9 +60,8 @@ public class MyLineChart {
 
                 if (map.get(countryCode).get(year) != null) {
                     System.out.println("Not null");
-                    series.getData().add(new XYChart.Data(countryCode, map.get(countryCode).get(year).getValue()));
+                    series.getData().add(new XYChart.Data(year, map.get(countryCode).get(year).getValue()));
                 }
-
             }
             lineChart.getData().add(series);
         }

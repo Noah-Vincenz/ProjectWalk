@@ -10,11 +10,7 @@ import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
-<<<<<<< HEAD
- * Created by Alex on 12/12/2016.
-=======
  * Created by Alex & Jaiten on 12/12/2016.
->>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
  */
 public class ModelTesting {
 
@@ -24,15 +20,12 @@ public class ModelTesting {
     }
 
     @Test
-<<<<<<< HEAD
-=======
     public void testWolframAlphaQuery() {
         Assert.assertNotNull(Networking.getInstance());
     }
 
 
     @Test
->>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
     public void testGettingCountries() {
         try {
             ArrayList<Country> countries = Networking.getInstance().getListOfCountries();
