@@ -42,6 +42,15 @@ public class Billionaire {
         this.imageURL = imageURL;
     }
 
+        /**
+     * Getter for Image Url field
+     * @return - String of their image url
+     */
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
     /**
      * Getter for name field
      * @return - String of their name

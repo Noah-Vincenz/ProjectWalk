@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Project-Walk.iml" filepath="$PROJECT_DIR$/.idea/modules/Project-Walk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ProjectWalk.iml" filepath="$PROJECT_DIR$/ProjectWalk.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ProjectWalk.iml" filepath="$PROJECT_DIR$/.idea/modules/ProjectWalk.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ProjectWalk_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ProjectWalk_main.iml" group="ProjectWalk" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ProjectWalk_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ProjectWalk_test.iml" group="ProjectWalk" />

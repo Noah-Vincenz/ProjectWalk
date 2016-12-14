@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
- * Created by Alex on 12/12/2016.
+ * Created by Alex & Jaiten on 12/12/2016.
  */
 public class ModelTesting {
 
@@ -18,6 +18,12 @@ public class ModelTesting {
     public void testCreateNetworkinSingleton() {
         Assert.assertNotNull(Networking.getInstance());
     }
+
+    @Test
+    public void testWolframAlphaQuery() {
+        Assert.assertNotNull(Networking.getInstance());
+    }
+
 
     @Test
     public void testGettingCountries() {

@@ -14,13 +14,22 @@ import com.wolfram.alpha.WASubpod;
 import model.SearchData;
 
 public class SearchDataController {
-    private static String appid = "ALJHQ8-X2R4Q758RU";
+    private static String appid = "ALJHQ8-X2R4Q758RU"; //Global Config Key for Wolfram API
     private SearchData model;
+
+
+    /** 
+     * Constructor to create SearchData Model to get wolfram
+     */
     public SearchDataController() {
         model = new SearchData();
     }
 
 
+    /**
+     * Calls model to get data
+     * @param String
+     */
     public void getData(String s) {
         model.getResult(s);
     }

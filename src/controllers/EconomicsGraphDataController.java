@@ -19,6 +19,7 @@ import views.EconomicsMainView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.*;
+import javafx.scene.control.Alert;
 
 /**
  * Created by Jaitens on 08/12/2016.
@@ -38,13 +39,12 @@ public class EconomicsGraphDataController {
     private SearchData modelSearch;
     private static ObservableList<PieChart.Data> list = FXCollections.observableList(new ArrayList<PieChart.Data>());
 
-    //Graph Data Controller
 
     /**
      * The EconomicsGraphDataController takes object EconomicsMainView which is a
      * stage as a parameter uses setSelectionButtonListener, searchWolframEnabled,
      * billionairesDailyView and displayBillionaireData to set the stage up properly.
-     * @param viewMain
+     * @param EconomicsMainView
      */
     public EconomicsGraphDataController(EconomicsMainView viewMain) {
         view = viewMain;
@@ -106,6 +106,12 @@ public class EconomicsGraphDataController {
                 }
                 String indicatorCode = "";
                 ComboBox visualisationSelected = view.getIndicatorSelection();
+                if(visualisationSelected.getSelectionModel().getSelectedItem() == null) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Please enter an indicator");
+                    alert.setContentText("You haven't entered an indicator you'd like to view!");
+                    alert.showAndWait();
+                }
                 if (visualisationSelected.getSelectionModel().getSelectedItem() != null) {
                     String graphSelected = visualisationSelected.getSelectionModel().getSelectedItem().toString();
                     System.out.println("Graph selected: " + graphSelected);
