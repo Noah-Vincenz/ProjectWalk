@@ -26,6 +26,13 @@ import com.wolfram.alpha.*;
 import model.Billionaire;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
+<<<<<<< HEAD
+=======
+import java.io.File;
+import java.net.URL;
+import java.net.MalformedURLException;
+import javafx.scene.shape.Circle;
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
 
 public class EconomicsMainView {
     private ComboBox cbIndicators;
@@ -45,6 +52,13 @@ public class EconomicsMainView {
     private boolean q6;
 
 
+<<<<<<< HEAD
+=======
+    /**
+     * Constructor for Economics Main View
+     * @param Stage
+     */
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
     public EconomicsMainView(Stage primaryStage) {
         root = new SplitPane();
         root.setDividerPositions(0.7f);
@@ -52,13 +66,28 @@ public class EconomicsMainView {
         setLeftPanel();
         setRightPanel();
         Scene scene = new Scene(root, primaryScreenBounds.getWidth(), 750);
+<<<<<<< HEAD
         scene.getStylesheets().add("css/styling2.css");
+=======
+        File file = new File("src/resources/css/styling2.css");
+        try{
+            URL url = file.toURI().toURL();
+            scene.getStylesheets().add(url.toExternalForm());
+        } catch(MalformedURLException ex) {
+
+        }
+
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     /**
+<<<<<<< HEAD
      *
+=======
+     * Sets Left Panel Styling
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public void setLeftPanel() {
         leftSide = new BorderPane();
@@ -72,7 +101,11 @@ public class EconomicsMainView {
 
     /**
      * returns the leftSide of the primaryStage
+<<<<<<< HEAD
      * @return leftSide
+=======
+     * @return BorderPane
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public BorderPane getLeftSide() {
         return leftSide;
@@ -87,7 +120,11 @@ public class EconomicsMainView {
      * ActionListeners are created for each HyperLink and based on which is pressed
      * the text of the TextArea is set to the strings containing the relavent data.
      * Some designing on All_Units, TextArea, and BorderPane to make it more appealing.
+<<<<<<< HEAD
      * @return bpRevisionGuide
+=======
+     * @return BorderPane
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public BorderPane revGuide() {
         BorderPane bpRevisionGuide = new BorderPane();
@@ -199,7 +236,11 @@ public class EconomicsMainView {
      * if statements to check if the boolean values are true and if so counter is
      * increased. At the end a Alert message gets created to inform the user of how
      * many questions they answered correctly.
+<<<<<<< HEAD
      * @return spQuiz
+=======
+     * @return ScrollPane
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public ScrollPane quizGuide() {
         GridPane gp_Quiz1 = new GridPane();
@@ -594,8 +635,13 @@ public class EconomicsMainView {
      * that stores the relevant data of the amount of money they make based on the industry.
      * Creates a BorderPane called h and stores the PieChart in center and then
      * it is added to the center of leftSide BorderPane which is the left side of the primary stage.
+<<<<<<< HEAD
      * @param billionaires
      * @param bc
+=======
+     * @param ArrayList<Billionaire>
+     * @param Piechart
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public void setBillionairesView(ArrayList<Billionaire> billionaires, PieChart bc) {
         BorderPane h = new BorderPane();
@@ -611,23 +657,51 @@ public class EconomicsMainView {
     /**
      * The method billionairesDailyView takes into its parameter a Billionaire
      * and creat
+<<<<<<< HEAD
      * @param b
+=======
+     * @param Billionaire
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public void billionairesDailyView(Billionaire b) {
         VBox v = new VBox();
         Label title = new Label("Today's Wealthiest Person on Earth");
         v.setPadding(new Insets(30, 0, 0, 20));
 
+<<<<<<< HEAD
         VBox person = new VBox();
         person.setPadding(new Insets(20,0,20,0));
         Label name = new Label(b.getName());
+=======
+        HBox person = new HBox();
+        person.setPadding(new Insets(20,0,20,0));
+        VBox personText = new VBox();
+        Label name = new Label(b.getName());
+
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
         Label networth = new Label("Net-Worth of " + String.valueOf(b.getWorthValue()) + "B");
         name.getStyleClass().add("mediumLabelTxt");
         networth.getStyleClass().add("mediumLabelTxt");
 
         person.setSpacing(5);
+<<<<<<< HEAD
         person.getChildren().addAll(name,networth);
 
+=======
+        personText.getChildren().addAll(name,networth);
+        if(b.getImageURL() != null) {
+            ImageView i = new ImageView(new Image(b.getImageURL()));
+            i.setFitHeight(70);
+            i.setFitWidth(70);
+            i.setPreserveRatio(true);
+            person.getChildren().addAll(i,personText);
+        } else {
+            person.getChildren().addAll(personText);
+        }
+       
+
+    
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
         title.getStyleClass().add("h1");
         billionairesViewBtn = new Button("View Billionaires Origins of Wealth");
 
@@ -643,7 +717,11 @@ public class EconomicsMainView {
      * which are CheckBoxes. Then combobox of Indicators and corresponding buttons are added.
      * Then the CheckBoxes created earlier are added to an array of CheckBoxes.
      * Lastly the GridPane is added to a VBox and returned.
+<<<<<<< HEAD
      * @return grapthOptions
+=======
+     * @return VBox
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public VBox getGraphSettingsView() {
         CheckBox United_Kingdom = new CheckBox("United Kingdom");
@@ -705,7 +783,11 @@ public class EconomicsMainView {
 
     /**
      * The Method getIndicatorSelection returns the Combobox of indicators.
+<<<<<<< HEAD
      * @return cbIndicators
+=======
+     * @return ComboBox
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public ComboBox getIndicatorSelection() {
         return cbIndicators;
@@ -713,7 +795,11 @@ public class EconomicsMainView {
 
     /**
      * This method uses the searchWolfram to create the
+<<<<<<< HEAD
      * @return
+=======
+     * @return VBox
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public VBox getWolfram() {
         VBox searchWolfram = new VBox();
@@ -737,15 +823,24 @@ public class EconomicsMainView {
 
     /**
      * The method getTextSearch returns a textfield for the searchbutton.
+<<<<<<< HEAD
      * @return textSearch
+=======
+     * @return TextField
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public TextField getTextSearch() {
         return textSearch;
     }
 
     /**
+<<<<<<< HEAD
      *
      * @param queryResult
+=======
+     * Sets Wolfram Query UI
+     * @param WAQueryResult
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public void setWolframQueryResults(WAQueryResult queryResult) {
         Stage stageResults = new Stage();
@@ -810,6 +905,14 @@ public class EconomicsMainView {
         }
     }
 
+<<<<<<< HEAD
+=======
+
+    /**
+     * Image Pop-Up Shows Image View
+     * @param ImageView
+     */
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
     public void imagePopupWindowShow(ImageView imageView) {
         Image image;
         BorderPane pane;
@@ -837,13 +940,21 @@ public class EconomicsMainView {
 
     /**
      * Method getbillionairesViewBtn returns a billionaires button.
+<<<<<<< HEAD
      * @return billionairesViewBtn
+=======
+     * @return Button
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public Button getbillionairesViewBtn() { return billionairesViewBtn; }
 
     /**
      * Method getCheckBoxes returns an arrayList of checkboxes.
+<<<<<<< HEAD
      * @return checkBoxes
+=======
+     * @return ArrayList<CheckBox>
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public ArrayList<CheckBox> getCheckBoxes() {
         return checkBoxes;
@@ -851,7 +962,11 @@ public class EconomicsMainView {
 
     /**
      * Method getGraphSearchBtn returns the search button for the grapth.
+<<<<<<< HEAD
      * @return btn
+=======
+     * @return Button
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public Button getGraphSearchBtn() {
         return btn;
@@ -859,7 +974,11 @@ public class EconomicsMainView {
 
     /**
      * Method getSearchBtn returns the search button.
+<<<<<<< HEAD
      * @return searchBtn
+=======
+     * @return Button
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public Button getSearchBtn() {
         return searchBtn;

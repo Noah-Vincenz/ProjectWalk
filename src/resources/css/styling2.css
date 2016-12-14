@@ -64,7 +64,11 @@
 -fx-font-size:16px; -fx-font-family:"Helvetica";
 }
 .leftSideBg {
+<<<<<<< HEAD
 -fx-background-image: url("https://upload.wikimedia.org/wikipedia/commons/6/6e/London_Thames_Sunset_panorama_-_Feb_2008.jpg"); -fx-background-size:cover;
+=======
+-fx-background-image: url("../images/LondonThames.jpg"); -fx-background-size:cover;
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
 }
 .largeLabelTxt {
 -fx-font-size:34px; -fx-font-family:"Helvetica";

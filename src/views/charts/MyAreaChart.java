@@ -68,6 +68,7 @@ public class MyAreaChart {
         return areaChart;
     }
 
+<<<<<<< HEAD
 //    public static void main(String args[]) {
 //        String[] listOfCodes = {"USA", "GB", "DE"};
 //        String inflation = "FP.CPI.TOTL.ZG"; //consumer prices
@@ -80,4 +81,7 @@ public class MyAreaChart {
 //        //multiple countries, 1 indicator, multiple years
 //        //MyBarChart bc = new MyBarChart (primaryStage, Networking.getInstance().getRangeOfIndicatorsForCountries(listOfCodes, inflation, "2000", "2015"));
 //    }
+=======
+
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
 }

@@ -19,6 +19,10 @@ import views.EconomicsMainView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.*;
+<<<<<<< HEAD
+=======
+import javafx.scene.control.Alert;
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
 
 /**
  * Created by Jaitens on 08/12/2016.
@@ -38,13 +42,20 @@ public class EconomicsGraphDataController {
     private SearchData modelSearch;
     private static ObservableList<PieChart.Data> list = FXCollections.observableList(new ArrayList<PieChart.Data>());
 
+<<<<<<< HEAD
     //Graph Data Controller
+=======
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
 
     /**
      * The EconomicsGraphDataController takes object EconomicsMainView which is a
      * stage as a parameter uses setSelectionButtonListener, searchWolframEnabled,
      * billionairesDailyView and displayBillionaireData to set the stage up properly.
+<<<<<<< HEAD
      * @param viewMain
+=======
+     * @param EconomicsMainView
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
      */
     public EconomicsGraphDataController(EconomicsMainView viewMain) {
         view = viewMain;
@@ -106,6 +117,15 @@ public class EconomicsGraphDataController {
                 }
                 String indicatorCode = "";
                 ComboBox visualisationSelected = view.getIndicatorSelection();
+<<<<<<< HEAD
+=======
+                if(visualisationSelected.getSelectionModel().getSelectedItem() == null) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Please enter an indicator");
+                    alert.setContentText("You haven't entered an indicator you'd like to view!");
+                    alert.showAndWait();
+                }
+>>>>>>> 6fd47f2fd1b8838f723248e9ab3f61a0c37f3c64
                 if (visualisationSelected.getSelectionModel().getSelectedItem() != null) {
                     String graphSelected = visualisationSelected.getSelectionModel().getSelectedItem().toString();
                     System.out.println("Graph selected: " + graphSelected);
