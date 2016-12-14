@@ -75,32 +75,32 @@ public class EconomicsGraphDataController {
                 ArrayList<String> countriesSelectedList = new ArrayList<String>();
                 for (int i = 0; i < countriesCheckBoxes.size(); i++) {
                     CheckBox countriesSelected = countriesCheckBoxes.get(i);
-                    if (countriesSelected.getText() == "United Kingdom" && countriesSelected.isSelected()) {
+                    if (countriesSelected.getText().equals("United Kingdom") && countriesSelected.isSelected()) {
                         countriesSelectedList.add("GB");
-                        System.out.println("Selected");
+//                        System.out.println("Selected");
                     }
-                    if (countriesSelected.getText() == "Romania" && countriesSelected.isSelected()) {
+                    if (countriesSelected.getText().equals("Romania") && countriesSelected.isSelected()) {
                         countriesSelectedList.add("RO");
                     }
-                    if (countriesSelected.getText() == "United States" && countriesSelected.isSelected()) {
+                    if (countriesSelected.getText().equals("United States") && countriesSelected.isSelected()) {
                         countriesSelectedList.add("USA");
                     }
-                    if (countriesSelected.getText() == "Turkey" && countriesSelected.isSelected()) {
+                    if (countriesSelected.getText().equals("Turkey") && countriesSelected.isSelected()) {
                         countriesSelectedList.add("TUR");
                     }
-                    if (countriesSelected.getText() == "Switzerland" && countriesSelected.isSelected()) {
+                    if (countriesSelected.getText().equals("Switzerland") && countriesSelected.isSelected()) {
                         countriesSelectedList.add("CHE");
                     }
-                    if (countriesSelected.getText() == "Canada" && countriesSelected.isSelected()) {
+                    if (countriesSelected.getText().equals("Canada") && countriesSelected.isSelected()) {
                         countriesSelectedList.add("CAN");
                     }
-                    if (countriesSelected.getText() == "Germany" && countriesSelected.isSelected()) {
+                    if (countriesSelected.getText().equals("Germany") && countriesSelected.isSelected()) {
                         countriesSelectedList.add("DE");
                     }
-                    if (countriesSelected.getText() == "China" && countriesSelected.isSelected()) {
+                    if (countriesSelected.getText().equals("China") && countriesSelected.isSelected()) {
                         countriesSelectedList.add("CHN");
                     }
-                    if (countriesSelected.getText() == "Russia" && countriesSelected.isSelected()) {
+                    if (countriesSelected.getText().equals("Russia") && countriesSelected.isSelected()) {
                         countriesSelectedList.add("RUS");
                     }
                 }
@@ -133,10 +133,13 @@ public class EconomicsGraphDataController {
                 final String finalIndicatorCode = indicatorCode;
 
                 try {
-                    model = Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", "2015");
+                    Calendar now = Calendar.getInstance();   // Gets the current date and time
+                    int year = now.get(Calendar.YEAR);       // The current year
+                    String currentYear = Integer.toString(year);
+                    model = Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", currentYear);
                     if(countriesSelectedList.size() == 1) {
 
-                        view.getLeftSide().setCenter(MyLineChart.getInstance().getLineChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", "2015")));
+                        view.getLeftSide().setCenter(MyLineChart.getInstance().getLineChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", currentYear)));
                         btnSwitchGraph = new Button("Switch Graph Type");
                         btnSwitchGraph.getStyleClass().add("btn-success");
 
@@ -144,15 +147,16 @@ public class EconomicsGraphDataController {
                         btnSwitchGraph.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
+
                                 if(view.getLeftSide().getCenter() instanceof LineChart) {
                                     try {
-                                        view.getLeftSide().setCenter(MyBarChart.getInstance().getBarChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, finalIndicatorCode, "1980", "2015")));
+                                        view.getLeftSide().setCenter(MyBarChart.getInstance().getBarChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, finalIndicatorCode, "1980", currentYear)));
                                     } catch(Exception e) {
                                         e.printStackTrace();
                                     }
                                 } else {
                                     try {
-                                        view.getLeftSide().setCenter(MyLineChart.getInstance().getLineChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, finalIndicatorCode, "1980", "2015")));
+                                        view.getLeftSide().setCenter(MyLineChart.getInstance().getLineChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, finalIndicatorCode, "1980", currentYear)));
                                     } catch(Exception e) {
                                         e.printStackTrace();
                                     }
@@ -163,7 +167,7 @@ public class EconomicsGraphDataController {
                         view.getLeftSide().setBottom(btnSwitchGraph);
                     } else if(countriesSelectedList.size() > 1) {
                         view.getLeftSide().setBottom(null);
-                        view.getLeftSide().setCenter(MyBarChart.getInstance().getBarChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", "2015")));
+                        view.getLeftSide().setCenter(MyBarChart.getInstance().getBarChart(Networking.getInstance().getRangeOfIndicatorsForCountries(countriesSelectedList, indicatorCode, "1980", currentYear)));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

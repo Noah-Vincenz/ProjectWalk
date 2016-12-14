@@ -57,7 +57,12 @@ public class MyLineChart {
             for(int j = 0; j < noOfYears; ++j) {
                 countryCode = (String) codesList.toArray()[i];
                 String year = Integer.toString(Integer.parseInt(firstYear)+j);
-                series.getData().add(new XYChart.Data(year, map.get(countryCode).get(year).getValue()));
+
+                if (map.get(countryCode).get(year) != null) {
+                    System.out.println("Not null");
+                    series.getData().add(new XYChart.Data(countryCode, map.get(countryCode).get(year).getValue()));
+                }
+
             }
             lineChart.getData().add(series);
         }
